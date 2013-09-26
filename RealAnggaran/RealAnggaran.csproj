@@ -1,0 +1,670 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D73CCB07-9510-442E-8709-E0D2A272DC7B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RealAnggaran</RootNamespace>
+    <AssemblyName>RealAnggaran</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ManifestCertificateThumbprint>978B5D1DA4B9D66F1765ED704F32BC2D7F72C6BD</ManifestCertificateThumbprint>
+    <ManifestKeyFile>RealAnggaran_TemporaryKey.pfx</ManifestKeyFile>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>false</SignManifests>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ApplicationIcon>DESKTOPZ.ICO</ApplicationIcon>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <PublishUrl>\\192.168.2.2\taruhsini\pubis\</PublishUrl>
+    <Install>false</Install>
+    <InstallFrom>Unc</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <UpdateUrl>\\192.168.2.209\pubis\</UpdateUrl>
+    <ApplicationRevision>18</ApplicationRevision>
+    <ApplicationVersion>0.1.1.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <BootstrapperComponentsLocation>Relative</BootstrapperComponentsLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\WINDOWS\assembly\GAC_MSIL\System.Web.Services\2.0.0.0__b03f5f7f11d50a3a\System.Web.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="cAlat.cs" />
+    <Compile Include="cetak\fCetakLapEvi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="cetak\fCetakLapEvi.Designer.cs">
+      <DependentUpon>fCetakLapEvi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="cetak\fCetakTransaksi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="cetak\fCetakTransaksi.Designer.cs">
+      <DependentUpon>fCetakTransaksi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="cKonek.cs" />
+    <Compile Include="cListViewComparer.cs" />
+    <Compile Include="cListViewSorting.cs" />
+    <Compile Include="CrystalReport_kpa.cs">
+      <DependentUpon>CrystalReport_kpa.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CrystalReport1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalReport3.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport3.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="cSaveInvoke.cs" />
+    <Compile Include="cStringCipher.cs" />
+    <Compile Include="ctlFontCombo.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dari_pakUZ\exit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dari_pakUZ\exit.Designer.cs">
+      <DependentUpon>exit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dari_pakUZ\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dari_pakUZ\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dari_pakUZ\Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="dari_pakUZ\Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="decrypt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="decrypt.designer.cs">
+      <DependentUpon>decrypt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="dsLAPORAN.cs">
+      <DependentUpon>dsLAPORAN.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="dsLAPORAN.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsLAPORAN.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="fCari.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fCari.Designer.cs">
+      <DependentUpon>fCari.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fEnFront.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fEnFront.Designer.cs">
+      <DependentUpon>fEnFront.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fEnTerima.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fEnTerima.Designer.cs">
+      <DependentUpon>fEnTerima.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fKasdanya.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fKasdanya.Designer.cs">
+      <DependentUpon>fKasdanya.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fLAP_KELUAR.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fLAP_KELUAR.Designer.cs">
+      <DependentUpon>fLAP_KELUAR.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fLogin.Designer.cs">
+      <DependentUpon>fLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fLunas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fLunas.Designer.cs">
+      <DependentUpon>fLunas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fMAnggaran.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fMAnggaran.Designer.cs">
+      <DependentUpon>fMAnggaran.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fMJenis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fMJenis.Designer.cs">
+      <DependentUpon>fMJenis.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fMKpa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fMKpa.Designer.cs">
+      <DependentUpon>fMKpa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fMOpp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fMOpp.Designer.cs">
+      <DependentUpon>fMOpp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fMRek.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fMRek.Designer.cs">
+      <DependentUpon>fMRek.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fMSupp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fMSupp.Designer.cs">
+      <DependentUpon>fMSupp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fRole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fRole.Designer.cs">
+      <DependentUpon>fRole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fSetConn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fSetConn.Designer.cs">
+      <DependentUpon>fSetConn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="fUtama.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fUtama.Designer.cs">
+      <DependentUpon>fUtama.cs</DependentUpon>
+    </Compile>
+    <Compile Include="misc_tool\fBacaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="misc_tool\fBacaForm.Designer.cs">
+      <DependentUpon>fBacaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="misc_tool\fCekSaldo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="misc_tool\fCekSaldo.Designer.cs">
+      <DependentUpon>fCekSaldo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="misc_tool\fCekSaldoPPTK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="misc_tool\fCekSaldoPPTK.Designer.cs">
+      <DependentUpon>fCekSaldoPPTK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="misc_tool\fGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="misc_tool\fGenerator.Designer.cs">
+      <DependentUpon>fGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="misc_tool\fHilangkanKarakterKotak.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="misc_tool\fHilangkanKarakterKotak.Designer.cs">
+      <DependentUpon>fHilangkanKarakterKotak.cs</DependentUpon>
+    </Compile>
+    <Compile Include="misc_tool\fKoreksiDuplikat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="misc_tool\fKoreksiDuplikat.Designer.cs">
+      <DependentUpon>fKoreksiDuplikat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="cetak\fCetakLapEvi.resx">
+      <DependentUpon>fCetakLapEvi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="cetak\fCetakTransaksi.resx">
+      <DependentUpon>fCetakTransaksi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport_kpa.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport_kpa.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport2.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport3.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport3.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dari_pakUZ\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="decrypt.resx">
+      <DependentUpon>decrypt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fCari.resx">
+      <DependentUpon>fCari.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fEnFront.resx">
+      <DependentUpon>fEnFront.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fEnTerima.resx">
+      <DependentUpon>fEnTerima.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fKasdanya.resx">
+      <DependentUpon>fKasdanya.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fLAP_KELUAR.resx">
+      <DependentUpon>fLAP_KELUAR.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fLogin.resx">
+      <DependentUpon>fLogin.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fLunas.resx">
+      <DependentUpon>fLunas.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fMAnggaran.resx">
+      <DependentUpon>fMAnggaran.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fMJenis.resx">
+      <DependentUpon>fMJenis.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fMKpa.resx">
+      <DependentUpon>fMKpa.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fMOpp.resx">
+      <DependentUpon>fMOpp.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fMRek.resx">
+      <DependentUpon>fMRek.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fMSupp.resx">
+      <DependentUpon>fMSupp.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fRole.resx">
+      <DependentUpon>fRole.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fSetConn.resx">
+      <DependentUpon>fSetConn.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fUtama.resx">
+      <DependentUpon>fUtama.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="misc_tool\fBacaForm.resx">
+      <DependentUpon>fBacaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="misc_tool\fCekSaldo.resx">
+      <DependentUpon>fCekSaldo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="misc_tool\fCekSaldoPPTK.resx">
+      <DependentUpon>fCekSaldoPPTK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="misc_tool\fGenerator.resx">
+      <DependentUpon>fGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="misc_tool\fHilangkanKarakterKotak.resx">
+      <DependentUpon>fHilangkanKarakterKotak.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="misc_tool\fKoreksiDuplikat.resx">
+      <DependentUpon>fKoreksiDuplikat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fSetFont.resx">
+      <DependentUpon>fSetFont.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Revisi\fCekAnggaran.resx">
+      <DependentUpon>fCekAnggaran.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Revisi\fKasir.resx">
+      <DependentUpon>fKasir.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Revisi\fMundurTanggal.resx">
+      <DependentUpon>fMundurTanggal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Revisi\fSubsidi.resx">
+      <DependentUpon>fSubsidi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Revisi\koreksiSubsidi.resx">
+      <DependentUpon>koreksiSubsidi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Revisi\masterRekening.resx">
+      <DependentUpon>masterRekening.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="fSetFont.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fSetFont.Designer.cs">
+      <DependentUpon>fSetFont.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Revisi\fCekAnggaran.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Revisi\fCekAnggaran.Designer.cs">
+      <DependentUpon>fCekAnggaran.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Revisi\fKasir.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Revisi\fKasir.Designer.cs">
+      <DependentUpon>fKasir.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Revisi\fMundurTanggal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Revisi\fMundurTanggal.Designer.cs">
+      <DependentUpon>fMundurTanggal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Revisi\fSubsidi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Revisi\fSubsidi.Designer.cs">
+      <DependentUpon>fSubsidi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Revisi\koreksiSubsidi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Revisi\koreksiSubsidi.Designer.cs">
+      <DependentUpon>koreksiSubsidi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Revisi\masterRekening.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Revisi\masterRekening.Designer.cs">
+      <DependentUpon>masterRekening.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Revisi\writeToExcel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="dsLAPORAN.xsc">
+      <DependentUpon>dsLAPORAN.xsd</DependentUpon>
+    </None>
+    <None Include="dsLAPORAN.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsLAPORAN.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="dsLAPORAN.xss">
+      <DependentUpon>dsLAPORAN.xsd</DependentUpon>
+    </None>
+    <None Include="RealAnggaran_TemporaryKey.pfx" />
+    <None Include="Resources\Folder - Factory Bank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Office.PIARedist.2007">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Office 2007 Primary Interop Assemblies</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Visual.C++.10.0.x86">
+      <Visible>False</Visible>
+      <ProductName>Visual C++ 2010 Runtime Libraries %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VSTORuntime.4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Studio 2010 Tools for Office Runtime %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DESKTOPZ.ICO" />
+    <None Include="Resources\file.png" />
+    <None Include="Resources\browse_icon.png" />
+    <None Include="Resources\print_printer.png" />
+    <None Include="Resources\tutor.png" />
+    <None Include="Resources\ttfIcon.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>4</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="CrystalDecisions.CrystalReports.Engine">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="CrystalDecisions.ReportSource">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="CrystalDecisions.Shared">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="CrystalDecisions.Windows.Forms">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.Vbe.Interop">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="office">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Auto</PublishState>
+      <IncludeHash>False</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
