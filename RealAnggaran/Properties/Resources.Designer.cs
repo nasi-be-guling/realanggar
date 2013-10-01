@@ -85,6 +85,101 @@ namespace RealAnggaran.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Terjadi kesalahan penulisan excel
+        ///Pesan kesalahan : .
+        /// </summary>
+        internal static string FCetakTransaksi_backgroundWorker2_DoWork_ {
+            get {
+                return ResourceManager.GetString("FCetakTransaksi_backgroundWorker2_DoWork_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File GAGAL Tercetak.
+        /// </summary>
+        internal static string FCetakTransaksi_backgroundWorker2_DoWork_File_GAGAL_Tercetak {
+            get {
+                return ResourceManager.GetString("FCetakTransaksi_backgroundWorker2_DoWork_File_GAGAL_Tercetak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Exported.
+        /// </summary>
+        internal static string FCetakTransaksi_backgroundWorker2_DoWork_File_Tercetak {
+            get {
+                return ResourceManager.GetString("FCetakTransaksi_backgroundWorker2_DoWork_File_Tercetak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KONFIRMASI.
+        /// </summary>
+        internal static string FCetakTransaksi_backgroundWorker2_DoWork_KONFIRMASI {
+            get {
+                return ResourceManager.GetString("FCetakTransaksi_backgroundWorker2_DoWork_KONFIRMASI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File Excel tidak ditemukan!
+        ///Silahkan klik template dan arahkan ke file template tersebut
+        ///Lebih lanjut hubungi 1062.
+        /// </summary>
+        internal static string FCetakTransaksi_button1_Click_ {
+            get {
+                return ResourceManager.GetString("FCetakTransaksi_button1_Click_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PERHATIAN.
+        /// </summary>
+        internal static string FCetakTransaksi_button1_Click_PERHATIAN {
+            get {
+                return ResourceManager.GetString("FCetakTransaksi_button1_Click_PERHATIAN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Silahkan Pilih Jenis Tanggal
+        ///SPK atau SPJ.
+        /// </summary>
+        internal static string FCetakTransaksi_button1_Click_pilih {
+            get {
+                return ResourceManager.GetString("FCetakTransaksi_button1_Click_pilih", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Silahkan pilih file yg akan dieksekusi!.
+        /// </summary>
+        internal static string FCetakTransaksi_button1_Click_Silahkan_pilih_file_yg_akan_dieksekusi_ {
+            get {
+                return ResourceManager.GetString("FCetakTransaksi_button1_Click_Silahkan_pilih_file_yg_akan_dieksekusi_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Masih Ada Proses berjalan harap tunggu.
+        /// </summary>
+        internal static string FCetakTransaksi_fCetakTransaksi_FormClosing_Masih_Ada_Proses_berjalan_harap_tunggu {
+            get {
+                return ResourceManager.GetString("FCetakTransaksi_fCetakTransaksi_FormClosing_Masih_Ada_Proses_berjalan_harap_tungg" +
+                        "u", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception Occured while releasing object .
+        /// </summary>
+        internal static string FCetakTransaksi_releaseObject_Exception_Occured_while_releasing_object_ {
+            get {
+                return ResourceManager.GetString("FCetakTransaksi_releaseObject_Exception_Occured_while_releasing_object_", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap file {
             get {
                 object obj = ResourceManager.GetObject("file", resourceCulture);

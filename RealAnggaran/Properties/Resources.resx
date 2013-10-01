@@ -143,4 +143,38 @@
   <data name="CAlat_PengecekField_Infomasi" xml:space="preserve">
     <value>Infomasi</value>
   </data>
+  <data name="FCetakTransaksi_button1_Click_" xml:space="preserve">
+    <value>File Excel tidak ditemukan!
+Silahkan klik template dan arahkan ke file template tersebut
+Lebih lanjut hubungi 1062</value>
+  </data>
+  <data name="FCetakTransaksi_button1_Click_Silahkan_pilih_file_yg_akan_dieksekusi_" xml:space="preserve">
+    <value>Silahkan pilih file yg akan dieksekusi!</value>
+  </data>
+  <data name="FCetakTransaksi_button1_Click_PERHATIAN" xml:space="preserve">
+    <value>PERHATIAN</value>
+  </data>
+  <data name="FCetakTransaksi_backgroundWorker2_DoWork_" xml:space="preserve">
+    <value>Terjadi kesalahan penulisan excel
+Pesan kesalahan : </value>
+  </data>
+  <data name="FCetakTransaksi_backgroundWorker2_DoWork_File_GAGAL_Tercetak" xml:space="preserve">
+    <value>File GAGAL Tercetak</value>
+  </data>
+  <data name="FCetakTransaksi_backgroundWorker2_DoWork_KONFIRMASI" xml:space="preserve">
+    <value>KONFIRMASI</value>
+  </data>
+  <data name="FCetakTransaksi_backgroundWorker2_DoWork_File_Tercetak" xml:space="preserve">
+    <value>File Exported</value>
+  </data>
+  <data name="FCetakTransaksi_releaseObject_Exception_Occured_while_releasing_object_" xml:space="preserve">
+    <value>Exception Occured while releasing object </value>
+  </data>
+  <data name="FCetakTransaksi_fCetakTransaksi_FormClosing_Masih_Ada_Proses_berjalan_harap_tunggu" xml:space="preserve">
+    <value>Masih Ada Proses berjalan harap tunggu</value>
+  </data>
+  <data name="FCetakTransaksi_button1_Click_pilih" xml:space="preserve">
+    <value>Silahkan Pilih Jenis Tanggal
+SPK atau SPJ</value>
+  </data>
 </root>
