@@ -27,6 +27,8 @@ namespace RealAnggaran.Revisi
             InitializeComponent();
             dateTimePicker1.CustomFormat = "dd/MM/yyyy";
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
+            dateTimePicker2.CustomFormat = "dd/MM/yyyy";
+            dateTimePicker2.Format = DateTimePickerFormat.Custom;
         }
 
         private void label9_Click(object sender, EventArgs e)
