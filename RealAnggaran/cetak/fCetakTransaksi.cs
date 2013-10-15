@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using RealAnggaran.Properties;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Threading;
 using System.Globalization;
@@ -107,28 +108,39 @@ namespace RealAnggaran.cetak
         private void button1_Click(object sender, EventArgs e)
         {
             //MessageBox.Show(string.Format("{0: dd/MM/yyyy}", dateTimePicker1.Value));
-            if (!string.IsNullOrEmpty(textBox1.Text.Trim()))
+            if (comboBox1.SelectedIndex >= 0)
             {
-                var fi = new FileInfo(textBox1.Text);
-                if (fi.Exists)
+                if (!string.IsNullOrEmpty(textBox1.Text.Trim()))
                 {
-                    if (!backgroundWorker1.IsBusy)
+                    var fi = new FileInfo(textBox1.Text);
+                    if (fi.Exists)
                     {
-                        DisableButton(0);
-                        backgroundWorker1.RunWorkerAsync();
+                        if (!backgroundWorker1.IsBusy)
+                        {
+                            DisableButton(0);
+                            backgroundWorker1.RunWorkerAsync();
+                        }
                     }
+                    else
+                        MessageBox.Show(Resources.FCetakTransaksi_button1_Click_,
+                            Resources.FCetakTransaksi_button1_Click_PERHATIAN);
                 }
                 else
-                    MessageBox.Show("File Excel tidak ditemukan!\nSilahkan klik template dan arahkan " +
-                "ke file template tersebut\nLebih lanjut hubungi 1062", "PERHATIAN");
+                    MessageBox.Show(Resources.FCetakTransaksi_button1_Click_Silahkan_pilih_file_yg_akan_dieksekusi_,
+                        Resources.FCetakTransaksi_button1_Click_PERHATIAN);
             }
             else
-                MessageBox.Show("Silahkan pilih file yg akan dieksekusi!","PERHATIAN");
+            {
+                MessageBox.Show(Resources.FCetakTransaksi_button1_Click_pilih, 
+                    Resources.FCetakTransaksi_button1_Click_PERHATIAN);
+                comboBox1.Focus();
+            }
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (rbSemua.Checked == true)
+            string strTanggal = comboBox1.SafeControlInvoke(comboBox => comboBox1.SelectedIndex == 0 ? "A.Tgl_SP" : "A.Tgl_SPJ");
+            if (rbSemua.Checked)
             {
                 _query = "SELECT A.IdBlj_Master, A.Tgl_SP, A.No_SPK, A.IdSupplier, A.Keter, A.No_Bukti, " +
                      "A.TGL_SPJ, B.TSubsi + B.TFungsi AS Total, B.Id_Rinci_Rs, C.P, C.K, " +
@@ -137,12 +149,12 @@ namespace RealAnggaran.cetak
                      "FROM KASDA..BLJ_MASTER A INNER JOIN " +
                      "KASDA..BLJ_DETAIL B ON B.IdBlj_Master = A.IdBlj_Master INNER JOIN " +
                      "KASDA..AKD_RINCIAN C ON C.Id_Rinci_Rs = B.Id_Rinci_RS " +
-                     "WHERE A.Tgl_SP BETWEEN CONVERT(DATETIME, '" + string.Format("{0:yyyy-MM-dd}", dateTimePicker1.Value) +
+                     "WHERE " + strTanggal + " BETWEEN CONVERT(DATETIME, '" + string.Format("{0:yyyy-MM-dd}", dateTimePicker1.Value) +
                      " 00:00:00', 121) AND CONVERT(DATETIME, '" + string.Format("{0:yyyy-MM-dd}", dateTimePicker2.Value) + " 23:59:59', 121)";
                 //CONVERT(SMALLDATETIME, '" + string.Format("{0:dd/MM/yyyy}", dateTimePicker1.Value) +
                 //"', 103) AND CONVERT(SMALLDATETIME, '" + string.Format("{0:dd/MM/yyyy}", dateTimePicker2.Value) + "', 103)";
             }
-            else if (rbLunas.Checked == true)
+            else if (rbLunas.Checked)
             {
                 _query = "SELECT A.IdBlj_Master, A.Tgl_SP, A.No_SPK, A.IdSupplier, A.Keter, A.No_Bukti, " +
                      "A.TGL_SPJ, B.TSubsi + B.TFungsi AS Total, B.Id_Rinci_Rs, C.P, C.K, " +
@@ -151,10 +163,10 @@ namespace RealAnggaran.cetak
                      "FROM KASDA..BLJ_MASTER A INNER JOIN " +
                      "KASDA..BLJ_DETAIL B ON B.IdBlj_Master = A.IdBlj_Master INNER JOIN " +
                      "KASDA..AKD_RINCIAN C ON C.Id_Rinci_Rs = B.Id_Rinci_RS " +
-                     "WHERE A.Tgl_SP BETWEEN CONVERT(DATETIME, '" + string.Format("{0:yyyy-MM-dd}", dateTimePicker1.Value) +
+                     "WHERE " + strTanggal + " BETWEEN CONVERT(DATETIME, '" + string.Format("{0:yyyy-MM-dd}", dateTimePicker1.Value) +
                      " 00:00:00', 121) AND CONVERT(DATETIME, '" + string.Format("{0:yyyy-MM-dd}", dateTimePicker2.Value) + " 23:59:59', 121) AND A.Lunas = 'Y'";
             }
-            else if (rbBelum.Checked == true)
+            else if (rbBelum.Checked)
             {
                 _query = "SELECT A.IdBlj_Master, A.Tgl_SP, A.No_SPK, A.IdSupplier, A.Keter, A.No_Bukti, " +
                      "A.TGL_SPJ, B.TSubsi + B.TFungsi AS Total, B.Id_Rinci_Rs, C.P, C.K, " +
@@ -163,7 +175,7 @@ namespace RealAnggaran.cetak
                      "FROM KASDA..BLJ_MASTER A INNER JOIN " +
                      "KASDA..BLJ_DETAIL B ON B.IdBlj_Master = A.IdBlj_Master INNER JOIN " +
                      "KASDA..AKD_RINCIAN C ON C.Id_Rinci_Rs = B.Id_Rinci_RS " +
-                     "WHERE A.Tgl_SP BETWEEN CONVERT(DATETIME, '" + string.Format("{0:yyyy-MM-dd}", dateTimePicker1.Value) +
+                     "WHERE " + strTanggal + " BETWEEN CONVERT(DATETIME, '" + string.Format("{0:yyyy-MM-dd}", dateTimePicker1.Value) +
                      " 00:00:00', 121) AND CONVERT(DATETIME, '" + string.Format("{0:yyyy-MM-dd}", dateTimePicker2.Value) + " 23:59:59', 121) AND A.Lunas = ' '";
             }
             List<TampungLaporanTran> grupLaporanTran = new List<TampungLaporanTran>();
@@ -231,7 +243,8 @@ namespace RealAnggaran.cetak
             catch (Exception ex)
             {
                 obj = null;
-                MessageBox.Show("Exception Occured while releasing object " + ex.ToString());
+                MessageBox.Show(Resources.FCetakTransaksi_releaseObject_Exception_Occured_while_releasing_object_ + 
+                    ex.ToString());
             }
             finally
             {
@@ -269,8 +282,8 @@ namespace RealAnggaran.cetak
                 //    xlWorkSheet.Cells[rowCount + index, 2] = "New Item" + index;
                 //}
                 int baris = 1;
-                progressBar1.SafeControlInvoke(ProgressBar => progressBar1.Maximum = _tabelKasda.Count + 1);
-                progressBar1.SafeControlInvoke(ProgressBar => progressBar1.Minimum = 0);
+                progressBar1.SafeControlInvoke(progressBar => progressBar1.Maximum = _tabelKasda.Count + 1);
+                progressBar1.SafeControlInvoke(progressBar => progressBar1.Minimum = 0);
 
 
                 foreach (var i in _tabelKasda)
@@ -298,15 +311,16 @@ namespace RealAnggaran.cetak
                 }
                 xlApp.AlertBeforeOverwriting = false;
                 xlApp.DisplayAlerts = false;
-                xlWorkBook.SaveAs(textBox1.Text, Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+                xlWorkBook.SaveAs(textBox1.Text, Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, 
+                    misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
                 xlWorkBook.Close(true, misValue, misValue);
                 xlApp.Quit();
-                MessageBox.Show("File Tercetak", "KONFIRMASI");
+                MessageBox.Show(Resources.FCetakTransaksi_backgroundWorker2_DoWork_File_Tercetak, Resources.FCetakTransaksi_backgroundWorker2_DoWork_KONFIRMASI);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Terjadi kesalahan penulisan excel\nPesan kesalahan : " + ex.Message, "PERHATIAN");
-                MessageBox.Show("File GAGAL Tercetak", "KONFIRMASI");
+                MessageBox.Show(Resources.FCetakTransaksi_backgroundWorker2_DoWork_ + ex.Message, Resources.FCetakTransaksi_button1_Click_PERHATIAN);
+                MessageBox.Show(Resources.FCetakTransaksi_backgroundWorker2_DoWork_File_GAGAL_Tercetak, Resources.FCetakTransaksi_backgroundWorker2_DoWork_KONFIRMASI);
             }
             finally
             {
@@ -331,7 +345,9 @@ namespace RealAnggaran.cetak
             if (_statusClose == 1)
             {
                 e.Cancel = true;
-                MessageBox.Show("Masih Ada Proses berjalan harap tunggu", "PERHATIAN");
+                MessageBox.Show(Resources.
+                    FCetakTransaksi_fCetakTransaksi_FormClosing_Masih_Ada_Proses_berjalan_harap_tunggu, 
+                    Resources.FCetakTransaksi_button1_Click_PERHATIAN);
             }
             else
             {
@@ -357,20 +373,17 @@ namespace RealAnggaran.cetak
             string filePath = "";
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                filePath = folderBrowserDialog1.SelectedPath + "\\Laporan_" + string.Format("{0:dd_MM_yyyy}", DateTime.Now) + ".xls";
+                filePath = folderBrowserDialog1.SelectedPath + "\\Laporan_" + string.Format("{0:dd_MM_yyyy}", 
+                    DateTime.Now) + ".xls";
                 filePath = filePath.Replace(@"\\", @"\");
 
                 textBox1.Text = filePath;
 
-                Excel.Application xlApp;
-                Excel.Workbook xlWorkBook;
-                Excel.Worksheet xlWorkSheet;
                 object misValue = Missing.Value;
-                Excel.Range chartRange;
 
-                xlApp = new Excel.ApplicationClass();
-                xlWorkBook = xlApp.Workbooks.Add(misValue);
-                xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
+                Excel.Application xlApp = new Excel.ApplicationClass();
+                Excel.Workbook xlWorkBook = xlApp.Workbooks.Add(misValue);
+                Excel.Worksheet xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
 
                 //add data 
                 xlWorkSheet.Cells[1, 1] = "No Urut";
@@ -438,13 +451,15 @@ namespace RealAnggaran.cetak
                 //chartRange = xlWorkSheet.get_Range("b2", "e9");
                 //chartRange.BorderAround(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlMedium, Excel.XlColorIndex.xlColorIndexAutomatic, Excel.XlColorIndex.xlColorIndexAutomatic);
                 #endregion
-                chartRange = xlWorkSheet.get_Range("a1", "r1");
+                Excel.Range chartRange = xlWorkSheet.get_Range("a1", "r1");
                 chartRange.Font.Bold = true;
                 chartRange = xlWorkSheet.get_Range("a1", "r1");
                 chartRange.Font.Size = 12;
                 xlApp.AlertBeforeOverwriting = false;
                 xlApp.DisplayAlerts = false;
-                xlWorkBook.SaveAs(filePath, Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+                xlWorkBook.SaveAs(filePath, Excel.XlFileFormat.xlWorkbookNormal, misValue, 
+                    misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, 
+                    misValue, misValue, misValue);
                 xlWorkBook.Close(true, misValue, misValue);
                 xlApp.Quit();
 
@@ -452,7 +467,8 @@ namespace RealAnggaran.cetak
                 releaseObject(xlWorkBook);
                 releaseObject(xlWorkSheet);
 
-                MessageBox.Show("File Tercetak", "KONFIRMASI");
+                MessageBox.Show(Resources.FCetakTransaksi_backgroundWorker2_DoWork_File_Tercetak, 
+                    Resources.FCetakTransaksi_backgroundWorker2_DoWork_KONFIRMASI);
             }
             DisableButton(1);
         }
