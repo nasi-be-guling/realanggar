@@ -308,7 +308,7 @@ namespace RealAnggaran.Revisi
             //cordCounter();
             backgroundWorker2.RunWorkerAsync();
             if (!backgroundWorker2.IsBusy)
-                showData();
+                ShowData();
         }
         private void fSubsidi_KeyDown(object sender, KeyEventArgs e)
         {
@@ -362,20 +362,20 @@ namespace RealAnggaran.Revisi
         {
             if (statusSimpan == 0)
             {
-                MessageBox.Show("Tidak dapat menciptakan No Bukti \nSilahkan pilih KPA", "PERHATIAN");
+                MessageBox.Show(@"Tidak dapat menciptakan No Bukti \nSilahkan pilih KPA", @"PERHATIAN");
                 comboBox1.Focus();
             }
             else if (cekFungORSubs() == false)
             {
-                MessageBox.Show("Pelunasan Fungsional Dilakukan oleh Bagian Perbendaharaan", "PERHATIAN");
+                MessageBox.Show(@"Pelunasan Fungsional Dilakukan oleh Bagian Perbendaharaan", @"PERHATIAN");
             }
             else if (cekLunas() == false)
             {
-                MessageBox.Show("Data Telah Dilunasi\n Jika ingin melakukan koreksi, Silahkan klik ganda data", "PERHATIAN");
+                MessageBox.Show(@"Data Telah Dilunasi\n Jika ingin melakukan koreksi, Silahkan klik ganda data", @"PERHATIAN");
             }
             else if (itemSelected == 0 | itemSelected < 1)
             {
-                MessageBox.Show("Silahkan Pilih Data yang akan dilunasi!", "PERHATIAN");
+                MessageBox.Show(@"Silahkan Pilih Data yang akan dilunasi!", @"PERHATIAN");
             }
             else
                 //MessageBox.Show("boleh");
@@ -384,9 +384,9 @@ namespace RealAnggaran.Revisi
 
         private void button2_Click(object sender, EventArgs e)
         {
-            showData();
+            ShowData();
         }
-        private void showData()
+        private void ShowData()
         {
             //tabelKasda = refinery();
             //IEnumerable<tampungKasda> namaKpa = (from s in tabelKasda where s.subsi == 0 select s);
@@ -735,7 +735,7 @@ namespace RealAnggaran.Revisi
         {
             if (e.KeyData == Keys.Enter)
             {
-                showData();
+                ShowData();
             }
         }
 

@@ -340,7 +340,7 @@ namespace RealAnggaran.Revisi
                 {
                     InsertTrans(tran);
                     Thread.Sleep(100);
-                    updateKASDA(txtNoKwitansi.Text.Trim(), dateTimePicker1.Text.Trim() + " " +
+                    UpdateKasda(txtNoKwitansi.Text.Trim(), dateTimePicker1.Text.Trim() + " " +
                         string.Format("{0:HH:mm:ss}", DateTime.Now), txtNoSPK.Text.Trim(), tran);
                     Thread.Sleep(100);
                     //updateBayar(tran);
@@ -406,7 +406,7 @@ namespace RealAnggaran.Revisi
                     txtNoRek.Text.Trim() + "'", koneksi, trans);
             }
         }
-        private void updateKASDA(string noBukti, string datetime, string noSPK, SqlTransaction trans)
+        private void UpdateKasda(string noBukti, string datetime, string noSPK, SqlTransaction trans)
         {
             //koneksi.Open();
             query = @"UPDATE KASDA.dbo.BLJ_MASTER " +
