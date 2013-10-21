@@ -56,7 +56,7 @@ namespace RealAnggaran.misc_tool
 
             xlApp = new Excel.ApplicationClass();
             xlWorkBook = xlApp.Workbooks.Open(textBox1.Text, 0, 
-                true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, 
+                true, 5, "", "", true, Excel.XlPlatform.xlWindows, 
                 "\t", false, false, 0, true, 1, 0);
             xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using RealAnggaran.cetak;
+using RealAnggaran.misc_tool;
 using RealAnggaran.Revisi;
 
 namespace RealAnggaran
@@ -15,7 +16,7 @@ namespace RealAnggaran
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new fUtama());
+            Application.Run(new FPak());
         }
     }
 }

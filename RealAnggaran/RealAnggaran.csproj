@@ -299,6 +299,12 @@
     <Compile Include="misc_tool\fKoreksiDuplikat.Designer.cs">
       <DependentUpon>fKoreksiDuplikat.cs</DependentUpon>
     </Compile>
+    <Compile Include="misc_tool\fPAK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="misc_tool\fPAK.Designer.cs">
+      <DependentUpon>fPAK.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="cetak\fCetakLapEvi.resx">
@@ -410,6 +416,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="misc_tool\fKoreksiDuplikat.resx">
       <DependentUpon>fKoreksiDuplikat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="misc_tool\fPAK.resx">
+      <DependentUpon>fPAK.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
