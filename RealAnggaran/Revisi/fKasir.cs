@@ -143,7 +143,7 @@ namespace RealAnggaran.Revisi
                 }
             }
         }
-        private decimal cekSisaAnggaran()
+        private decimal CekSisaAnggaran()
         {
             decimal i = 0;
             decimal totalBayar = Convert.ToDecimal(filtertxt(txtJmlBayar.Text.Trim()));// + 
@@ -239,12 +239,12 @@ namespace RealAnggaran.Revisi
                     //    comboBox1.Focus();
                     //}
                     //else if (cek_saldo() == false)
-                    else if (cekSisaAnggaran() < 0)
+                    else if (CekSisaAnggaran() < 0)
                     {
                         //MessageBox.Show("Jumlah Saldo yang dianggarkan oleh KPA dan/atau pada SUMBER DANA ini\nTIDAK MENCUKUPI UNTUK MELAKUKAN PEMBAYARAN\nSisa : " +
                         //string.Format(new System.Globalization.CultureInfo("id-ID"), "Rp. {0:n}", cekSisaAnggaran()), "PERHATIAN");
                         MessageBox.Show("Sisa anggaran pada kode panggil/rekening ini\nTIDAK MENCUKUPI UNTUK MELAKUKAN PEMBAYARAN\nSisa : " +
-                            string.Format(new System.Globalization.CultureInfo("id-ID"), "Rp. {0:n}", cekSisaAnggaran()), "PERHATIAN");
+                            string.Format(new System.Globalization.CultureInfo("id-ID"), "Rp. {0:n}", CekSisaAnggaran()), "PERHATIAN");
                         comboBox1.Focus();
                     }
                     else if (konek.CekFieldUnik("KASDA..BLJ_MASTER", "No_Bukti", txtNoKwitansi.Text) == true)

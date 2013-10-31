@@ -26,6 +26,23 @@ namespace RealAnggaran.misc_tool
             }
         }
 
+        private int HitungBaris(bool isbaris = true)
+        {
+            Excel.Application xlApp = new ApplicationClass();
+            Workbook xlWorkBook = xlApp.Workbooks.Open(textBox1.Text, 0,
+                true, 5, "", "", true, XlPlatform.xlWindows,
+                "\t", false, false, 0, true, 1, 0);
+            Worksheet xlWorkSheet = (Worksheet)xlWorkBook.Worksheets.get_Item(1);
+
+            Range last = xlWorkSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing);
+            Range range = xlWorkSheet.get_Range("A1", last);
+
+            if (isbaris)
+                return last.Row;
+           
+            return last.Column;
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             if (!backgroundWorker1.IsBusy)
@@ -51,10 +68,14 @@ namespace RealAnggaran.misc_tool
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            // Commplete code snipet ada di berkas fBacaForm.cs
+            // ====================================================
+            // | Commplete code snipet ada di berkas fBacaForm.cs |
+            // ====================================================
+
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
 
             int rCnt;
+            int lastrCnt = HitungBaris();
 
             object misValue = System.Reflection.Missing.Value;
 
@@ -68,11 +89,11 @@ namespace RealAnggaran.misc_tool
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
-            for (rCnt = 1; rCnt <= 248; rCnt++) //Baris
+            for (rCnt = 2; rCnt <= lastrCnt; rCnt++) //Baris
             {
                 try
                 {
-                    _connect.MasukkanData("UPDATE [KASDA].[dbo].[ANGKAS_DTL_test] set tot_angkas = " +
+                    _connect.MasukkanData("UPDATE [KASDA].[dbo].[ANGKAS_DTL] set tot_angkas = " +
                         (range.Cells[rCnt, 2] as Range).Value2 + ", tot_sblm_pak = " +
                         (range.Cells[rCnt, 1] as Range).Value2 + " where id_rinci_rs = '" +
                         (range.Cells[rCnt, 4] as Range).Value2 + "'", _connection, transaction);
@@ -88,6 +109,7 @@ namespace RealAnggaran.misc_tool
                     transaction.Rollback();
                     return;
                 }
+                //MessageBox.Show("Test " + lastrCnt);
             }
             transaction.Commit();
             _connection.Close();
