@@ -84,6 +84,7 @@
             this.tsmiGenerateNoSPK = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiExportExcel = new System.Windows.Forms.ToolStripMenuItem();
             this.mcekSisaPPTK = new System.Windows.Forms.ToolStripMenuItem();
+            this.mPenyesuaianSPK = new System.Windows.Forms.ToolStripMenuItem();
             this.windowsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.cascadeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tileVerticalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -115,7 +116,6 @@
             this.txtkd_Pos = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.mPenyesuaianSPK = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -580,6 +580,13 @@
             this.mcekSisaPPTK.Text = "Cek Sisa PPTK";
             this.mcekSisaPPTK.Click += new System.EventHandler(this.mcekSisaPPTK_Click);
             // 
+            // mPenyesuaianSPK
+            // 
+            this.mPenyesuaianSPK.Name = "mPenyesuaianSPK";
+            this.mPenyesuaianSPK.Size = new System.Drawing.Size(172, 22);
+            this.mPenyesuaianSPK.Text = "Penyesuaian SPK";
+            this.mPenyesuaianSPK.Click += new System.EventHandler(this.penyesuaianSPKToolStripMenuItem_Click);
+            // 
             // windowsMenu
             // 
             this.windowsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -689,6 +696,7 @@
             this.toolStrip.Size = new System.Drawing.Size(632, 25);
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "ToolStrip";
+            this.toolStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.toolStrip_ItemClicked);
             // 
             // newToolStripButton
             // 
@@ -819,13 +827,6 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
-            // mPenyesuaianSPK
-            // 
-            this.mPenyesuaianSPK.Name = "mPenyesuaianSPK";
-            this.mPenyesuaianSPK.Size = new System.Drawing.Size(172, 22);
-            this.mPenyesuaianSPK.Text = "Penyesuaian SPK";
-            this.mPenyesuaianSPK.Click += new System.EventHandler(this.penyesuaianSPKToolStripMenuItem_Click);
             // 
             // fUtama
             // 
