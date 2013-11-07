@@ -207,7 +207,7 @@ namespace RealAnggaran.Revisi
             public tampungKasda(string idSPK, string NoSPK, DateTime tglSP, 
                 string kodeRek, string uraian, string ket, decimal subsi, 
                 decimal fungsi, string lunas, string noBukti, string noRek,
-                string noRekPanjang, string noRekanan)
+                string noRekPanjang, string noRekanan, DateTime tglSPJ)
             {                                                                    
                 this.idSPK = idSPK;                                    // Jika tidak menggunakan constructor
                 this.NoSPK = NoSPK;                                     // hapus pada baris yg di comment
@@ -222,6 +222,7 @@ namespace RealAnggaran.Revisi
                 this.noRek = noRek;
                 this.noRekPanjang = noRekPanjang;
                 this.noRekanan = noRekanan;
+                this.tglSPJ = tglSPJ;
             }
             public string idSPK {set; get;}
             public string NoSPK {set; get;}
@@ -236,6 +237,7 @@ namespace RealAnggaran.Revisi
             public string noRek {set; get;}
             public string noRekPanjang {set; get;}
             public string noRekanan { set; get; }
+            public DateTime tglSPJ { set; get; }
         }
         private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -256,7 +258,7 @@ namespace RealAnggaran.Revisi
                 reader.Close();
                 progressBar1.SafeControlInvoke(ProgressBar => progressBar1.Maximum = jumlahRecord + 2);
                 reader = konek.MembacaData("SELECT A.IdBlj_Master, A.No_SPK, A.Tgl_SP, C.Id_Rinci_Rs, C.Uraian, A.Keter, B.TSubsi, B.TFungsi, " + // US REGION
-                    "A.Lunas, A.No_bukti, D.IdAngkas, C.Kode_jenis, C.Kode_Obyek, C.Kode_Kelompok, C.idKtg_blj, C.formatPanjang, A.IdSupplier " +
+                    "A.Lunas, A.No_bukti, D.IdAngkas, C.Kode_jenis, C.Kode_Obyek, C.Kode_Kelompok, C.idKtg_blj, C.formatPanjang, A.IdSupplier, A.tgl_spj " +
                     "FROM KASDA..BLJ_MASTER A, KASDA..BLJ_DETAIL B, KASDA..AKD_RINCIAN C, KASDA..ANGKAS_DTL D " +
                     "WHERE D.Id_Rinci_Rs = B.Id_Rinci_RS AND C.Id_Rinci_RS = B.Id_Rinci_RS AND B.IdBlj_Master = A.IdBlj_Master", koneksi);
                 //reader = konek.membacaData("SELECT A.IdBlj_Master, A.No_SPK, CONVERT(VARCHAR(20), A.Tgl_SP, 103), C.Id_Rinci_Rs, C.Uraian, A.Keter, B.TSubsi, B.TFungsi, " + // ID REGION
@@ -271,7 +273,7 @@ namespace RealAnggaran.Revisi
                             alat.PengecekField(reader, 3), alat.PengecekField(reader, 4), alat.PengecekField(reader, 5), Convert.ToDecimal(alat.PengecekField(reader, 6)),
                             Convert.ToDecimal(alat.PengecekField(reader, 7)), alat.PengecekField(reader, 8), alat.PengecekField(reader, 9), alat.PengecekField(reader, 10) + "." +
                             alat.PengecekField(reader, 11) + "." + alat.PengecekField(reader, 12) + "." + alat.PengecekField(reader, 13) + "." +
-                            alat.PengecekField(reader, 14), alat.PengecekField(reader, 15), alat.PengecekField(reader, 16)));
+                            alat.PengecekField(reader, 14), alat.PengecekField(reader, 15), alat.PengecekField(reader, 16), Convert.ToDateTime(reader[17])));
                         //MessageBox.Show(Convert.ToDateTime(String.Format("{0:MM/dd/yyyy}", reader[2])).ToString());
                         progressBar1.SafeControlInvoke(ProgressBar => progressBar1.Value++);
                         //MessageBox.Show(String.Format("{0:dd/MM/yyyy}", Convert.ToDateTime(alat.pengecekField(reader, 2))));
@@ -306,7 +308,7 @@ namespace RealAnggaran.Revisi
             //cordCounter();
             backgroundWorker2.RunWorkerAsync();
             if (!backgroundWorker2.IsBusy)
-                showData();
+                ShowData();
         }
         private void fSubsidi_KeyDown(object sender, KeyEventArgs e)
         {
@@ -360,20 +362,20 @@ namespace RealAnggaran.Revisi
         {
             if (statusSimpan == 0)
             {
-                MessageBox.Show("Tidak dapat menciptakan No Bukti \nSilahkan pilih KPA", "PERHATIAN");
+                MessageBox.Show(@"Tidak dapat menciptakan No Bukti \nSilahkan pilih KPA", @"PERHATIAN");
                 comboBox1.Focus();
             }
             else if (cekFungORSubs() == false)
             {
-                MessageBox.Show("Pelunasan Fungsional Dilakukan oleh Bagian Perbendaharaan", "PERHATIAN");
+                MessageBox.Show(@"Pelunasan Fungsional Dilakukan oleh Bagian Perbendaharaan", @"PERHATIAN");
             }
             else if (cekLunas() == false)
             {
-                MessageBox.Show("Data Telah Dilunasi\n Jika ingin melakukan koreksi, Silahkan klik ganda data", "PERHATIAN");
+                MessageBox.Show(@"Data Telah Dilunasi\n Jika ingin melakukan koreksi, Silahkan klik ganda data", @"PERHATIAN");
             }
             else if (itemSelected == 0 | itemSelected < 1)
             {
-                MessageBox.Show("Silahkan Pilih Data yang akan dilunasi!", "PERHATIAN");
+                MessageBox.Show(@"Silahkan Pilih Data yang akan dilunasi!", @"PERHATIAN");
             }
             else
                 //MessageBox.Show("boleh");
@@ -382,9 +384,9 @@ namespace RealAnggaran.Revisi
 
         private void button2_Click(object sender, EventArgs e)
         {
-            showData();
+            ShowData();
         }
-        private void showData()
+        private void ShowData()
         {
             //tabelKasda = refinery();
             //IEnumerable<tampungKasda> namaKpa = (from s in tabelKasda where s.subsi == 0 select s);
@@ -404,7 +406,7 @@ namespace RealAnggaran.Revisi
                 }
                 else if (statusShowData == 2) // tampilkan berdasarkan nominal
                 {
-                    if (checkBox1.Checked == true && string.IsNullOrEmpty(textBox1.Text) || string.IsNullOrEmpty(textBox2.Text))
+                    if (checkBox1.Checked && string.IsNullOrEmpty(textBox1.Text) || string.IsNullOrEmpty(textBox2.Text))
                     {
                         namaKpa = (from s in tabelKasda
                                    where s.fungsi == 0
@@ -424,7 +426,7 @@ namespace RealAnggaran.Revisi
                 }
                 else if (statusShowData == 3) // tampilkan berdasarkan nominal
                 {
-                    if (checkBox2.Checked == true && string.IsNullOrEmpty(textBox1.Text) || string.IsNullOrEmpty(textBox2.Text))
+                    if (checkBox2.Checked && string.IsNullOrEmpty(textBox1.Text) || string.IsNullOrEmpty(textBox2.Text))
                     {
                         namaKpa = (from s in tabelKasda
                                    where s.subsi == 0
@@ -444,7 +446,7 @@ namespace RealAnggaran.Revisi
                 }
                 else if (statusShowData == 4) // tampilkan berdasarkan pelunasan
                 {
-                    if (radioButton2.Checked == true)
+                    if (radioButton2.Checked)
                     {
                         namaKpa = (from s in tabelKasda
                                    where s.lunas.Contains("Y") 
@@ -485,6 +487,7 @@ namespace RealAnggaran.Revisi
                     item.SubItems.Add(i.noRek);
                     item.SubItems.Add(i.noRekPanjang);
                     item.SubItems.Add(i.noRekanan);
+                    item.SubItems.Add(string.Format("{0:MM/dd/yyyy}", i.tglSPJ));
                     lvItemGroup.Add(item);
                 }
                 listView1.BeginUpdate();
@@ -704,8 +707,9 @@ namespace RealAnggaran.Revisi
                 formKoreksiSubsidi.txtDetailRek.Text = listView1.SelectedItems[0].SubItems[10].Text;
                 formKoreksiSubsidi.txtRekDowo.Text = listView1.SelectedItems[0].SubItems[11].Text;
                 formKoreksiSubsidi.txtSupplier.Text = listView1.SelectedItems[0].SubItems[12].Text;
+                formKoreksiSubsidi.dateTimePicker2.Value = Convert.ToDateTime(listView1.SelectedItems[0].SubItems[13].Text);
                 formKoreksiSubsidi.StartPosition = FormStartPosition.CenterScreen;
-                formKoreksiSubsidi.idOpp = this.idOpp;
+                formKoreksiSubsidi.idOpp = idOpp;
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
                 //koreksiSubsidi.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
@@ -731,7 +735,7 @@ namespace RealAnggaran.Revisi
         {
             if (e.KeyData == Keys.Enter)
             {
-                showData();
+                ShowData();
             }
         }
 
@@ -781,7 +785,7 @@ namespace RealAnggaran.Revisi
                         grupKasda.Add(new tampungKasda(item.SubItems[0].Text, item.SubItems[1].Text, Convert.ToDateTime(item.SubItems[2].Text), //US REGION
                             item.SubItems[3].Text, item.SubItems[4].Text, item.SubItems[5].Text, Convert.ToDecimal(filterRupiah(item.SubItems[6].Text)),
                             Convert.ToDecimal(filterRupiah(item.SubItems[7].Text)), item.SubItems[8].Text, item.SubItems[9].Text, item.SubItems[10].Text,
-                            item.SubItems[11].Text, item.SubItems[12].Text));
+                            item.SubItems[11].Text, item.SubItems[12].Text, Convert.ToDateTime(item.SubItems[13].Text)));
                     }
                 }
             );
@@ -818,6 +822,7 @@ namespace RealAnggaran.Revisi
                 item.SubItems.Add(i.noRek);
                 item.SubItems.Add(i.noRekPanjang);
                 item.SubItems.Add(i.noRekanan);
+                item.SubItems.Add(string.Format("{0:MM/dd/yyyy}", i.tglSPJ));
                 lvItemGroup.Add(item);
                 progressBar1.SafeControlInvoke(ProgressBar => progressBar1.Value++);
             }

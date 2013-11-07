@@ -98,11 +98,11 @@ namespace RealAnggaran.cetak
 
         private void fCetakTransaksi_Load(object sender, EventArgs e)
         {
-            foreach (Process proc in Process.GetProcessesByName("EXCEL"))
-            {
-                if (proc.MainWindowTitle == "")
-                    proc.Kill();
-            }
+            //foreach (Process proc in Process.GetProcessesByName("EXCEL"))
+            //{
+            //    if (proc.MainWindowTitle == "")
+            //        proc.Kill();
+            //}
         }
 
         private void button1_Click(object sender, EventArgs e)

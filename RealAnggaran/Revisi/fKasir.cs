@@ -143,7 +143,7 @@ namespace RealAnggaran.Revisi
                 }
             }
         }
-        private decimal cekSisaAnggaran()
+        private decimal CekSisaAnggaran()
         {
             decimal i = 0;
             decimal totalBayar = Convert.ToDecimal(filtertxt(txtJmlBayar.Text.Trim()));// + 
@@ -239,12 +239,12 @@ namespace RealAnggaran.Revisi
                     //    comboBox1.Focus();
                     //}
                     //else if (cek_saldo() == false)
-                    else if (cekSisaAnggaran() < 0)
+                    else if (CekSisaAnggaran() < 0)
                     {
                         //MessageBox.Show("Jumlah Saldo yang dianggarkan oleh KPA dan/atau pada SUMBER DANA ini\nTIDAK MENCUKUPI UNTUK MELAKUKAN PEMBAYARAN\nSisa : " +
                         //string.Format(new System.Globalization.CultureInfo("id-ID"), "Rp. {0:n}", cekSisaAnggaran()), "PERHATIAN");
                         MessageBox.Show("Sisa anggaran pada kode panggil/rekening ini\nTIDAK MENCUKUPI UNTUK MELAKUKAN PEMBAYARAN\nSisa : " +
-                            string.Format(new System.Globalization.CultureInfo("id-ID"), "Rp. {0:n}", cekSisaAnggaran()), "PERHATIAN");
+                            string.Format(new System.Globalization.CultureInfo("id-ID"), "Rp. {0:n}", CekSisaAnggaran()), "PERHATIAN");
                         comboBox1.Focus();
                     }
                     else if (konek.CekFieldUnik("KASDA..BLJ_MASTER", "No_Bukti", txtNoKwitansi.Text) == true)
@@ -254,7 +254,7 @@ namespace RealAnggaran.Revisi
                     }
                     else
                     {
-                        simpanData(0);
+                        SimpanData(0);
                         //MessageBox.Show(generateNoBukti() + " " + idOpp.ToString() + " " + idSupplier.ToString() + " " + idSumber.ToString());
                     }
                 }
@@ -315,7 +315,7 @@ namespace RealAnggaran.Revisi
                     //}
                     else
                     {
-                        simpanData(1);
+                        SimpanData(1);
                         //MessageBox.Show(generateNoBukti() + " " + idOpp.ToString() + " " + idSupplier.ToString() + " " + idSumber.ToString());
                     }
                 }
@@ -326,7 +326,7 @@ namespace RealAnggaran.Revisi
             //}
             modePilihKpa = 0;
         }
-        private void simpanData(int statusTrans)
+        private void SimpanData(int statusTrans)
         {
             bSave.Enabled = false;
             //String noBukti = null;
@@ -338,9 +338,9 @@ namespace RealAnggaran.Revisi
             {
                 if (statusTrans == 0)
                 {
-                    insertTrans(tran);
+                    InsertTrans(tran);
                     Thread.Sleep(100);
-                    updateKASDA(txtNoKwitansi.Text.Trim(), dateTimePicker1.Text.Trim() + " " +
+                    UpdateKasda(txtNoKwitansi.Text.Trim(), dateTimePicker1.Text.Trim() + " " +
                         string.Format("{0:HH:mm:ss}", DateTime.Now), txtNoSPK.Text.Trim(), tran);
                     Thread.Sleep(100);
                     //updateBayar(tran);
@@ -349,7 +349,7 @@ namespace RealAnggaran.Revisi
                     UpdateTrans(tran);
                 tran.Commit();
                 removeUsedList();
-                MessageBox.Show("PENYIMPANAN BERHASIL, TERIMAKASIH", "PERHATIAN");
+                MessageBox.Show(@"PENYIMPANAN BERHASIL, TERIMAKASIH", @"PERHATIAN");
                 clearance();
             }
             catch (SqlException e)
@@ -369,7 +369,7 @@ namespace RealAnggaran.Revisi
             teks = teks.Replace(",", ".");
             return teks;
         }
-        private void insertTrans(SqlTransaction trans)
+        private void InsertTrans(SqlTransaction trans)
         {
             query = @"INSERT INTO A_PENGELUARAN (TglBayar, NoBayar, Id_Reken, Id_Supplier, PPnRp, PPhRp, JmlRp, Lunas, " +
                 "idSumber, Id_Opp_En, Batal, Id_Jenis, Id_Opp_Ver, kwi, ketBayar, NTPNPPn, NTPNPPh, PPhNo, NO_SPK, Wkt_Entry, Wkt_Update, Id_Kpa) VALUES (CONVERT(DATETIME, '" + dateTimePicker1.Text +
@@ -406,7 +406,7 @@ namespace RealAnggaran.Revisi
                     txtNoRek.Text.Trim() + "'", koneksi, trans);
             }
         }
-        private void updateKASDA(string noBukti, string datetime, string noSPK, SqlTransaction trans)
+        private void UpdateKasda(string noBukti, string datetime, string noSPK, SqlTransaction trans)
         {
             //koneksi.Open();
             query = @"UPDATE KASDA.dbo.BLJ_MASTER " +

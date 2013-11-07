@@ -71,11 +71,6 @@ namespace RealAnggaran.cetak
             koneksi.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             if (this.openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -325,8 +320,8 @@ namespace RealAnggaran.cetak
                 int baris = 1; //cari cara menghitung jumlah baris yg telah ditulis di excel
                 if (cekBaris(xlWorkSheet) > 1)
                     baris = cekBaris(xlWorkSheet);
-                progressBar1.SafeControlInvoke(ProgressBar => progressBar1.Maximum = listView1.SelectedItems.Count + 1);
-                progressBar1.SafeControlInvoke(ProgressBar => progressBar1.Minimum = 0);
+                progressBar1.SafeControlInvoke(progressBar => progressBar1.Maximum = listView1.SelectedItems.Count + 1);
+                progressBar1.SafeControlInvoke(progressBar => progressBar1.Minimum = 0);
 
                 listView1.SafeControlInvoke(listView =>
                     {
@@ -377,7 +372,7 @@ namespace RealAnggaran.cetak
             progressBar1.Minimum = 0;
             statusClose = 0;
             disableButton(1);
-            MessageBox.Show("File Tercetak", "KONFIRMASI");
+            MessageBox.Show(@"File Tercetak", @"KONFIRMASI");
         }
 
         private void fCetakLapEvi_FormClosing(object sender, FormClosingEventArgs e)
@@ -385,7 +380,7 @@ namespace RealAnggaran.cetak
             if (statusClose == 1)
             {
                 e.Cancel = true;
-                MessageBox.Show("Masih Ada Proses berjalan harap tunggu", "PERHATIAN");
+                MessageBox.Show(@"Masih Ada Proses berjalan harap tunggu", @"PERHATIAN");
             }
             else
             {
@@ -400,11 +395,11 @@ namespace RealAnggaran.cetak
 
         private void fCetakLapEvi_Load(object sender, EventArgs e)
         {
-            foreach (System.Diagnostics.Process proc in System.Diagnostics.Process.GetProcessesByName("EXCEL"))
-            {
-                if (proc.MainWindowTitle == "")
-                proc.Kill();
-            }
+            //foreach (System.Diagnostics.Process proc in System.Diagnostics.Process.GetProcessesByName("EXCEL"))
+            //{
+            //    if (proc.MainWindowTitle == "")
+            //    proc.Kill();
+            //}
         }
 
         private void listView1_MouseDown(object sender, MouseEventArgs e)
