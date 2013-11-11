@@ -91,25 +91,28 @@ namespace RealAnggaran.misc_tool
             SqlTransaction transaction = _connection.BeginTransaction();
             for (rCnt = 2; rCnt <= lastrCnt; rCnt++) //Baris
             {
-                try
+                //try
+                //{
+                //    _connect.MasukkanData("UPDATE [KASDA].[dbo].[ANGKAS_DTL] set tot_angkas = " +
+                //        (range.Cells[rCnt, 2] as Range).Value2 + ", tot_sblm_pak = " +
+                //        (range.Cells[rCnt, 1] as Range).Value2 + " where id_rinci_rs = '" +
+                //        (range.Cells[rCnt, 4] as Range).Value2 + "'", _connection, transaction);
+                //    _connect.MasukkanData("INSERT into [REALANGGAR].[dbo].[T_PAK] values (getdate(), " +
+                //        (range.Cells[rCnt, 1] as Range).Value2 + ", " +
+                //        (range.Cells[rCnt, 2] as Range).Value2 + ", " +
+                //        (range.Cells[rCnt, 3] as Range).Value2 + ", " +
+                //        (range.Cells[rCnt, 4] as Range).Value2 + ")", _connection, transaction);
+                //}
+                //catch (SqlException sqlEx)
+                //{
+                //    MessageBox.Show(@"Terjadi kesalahan dgn pesan : " + sqlEx.Message);
+                //    transaction.Rollback();
+                //    return;
+                //}
+                if (Convert.ToString(((Range) range.Cells[lastrCnt, 2]).Value2) == "")
                 {
-                    _connect.MasukkanData("UPDATE [KASDA].[dbo].[ANGKAS_DTL] set tot_angkas = " +
-                        (range.Cells[rCnt, 2] as Range).Value2 + ", tot_sblm_pak = " +
-                        (range.Cells[rCnt, 1] as Range).Value2 + " where id_rinci_rs = '" +
-                        (range.Cells[rCnt, 4] as Range).Value2 + "'", _connection, transaction);
-                    _connect.MasukkanData("INSERT into [REALANGGAR].[dbo].[T_PAK] values (getdate(), " +
-                        (range.Cells[rCnt, 1] as Range).Value2 + ", " +
-                        (range.Cells[rCnt, 2] as Range).Value2 + ", " +
-                        (range.Cells[rCnt, 3] as Range).Value2 + ", " +
-                        (range.Cells[rCnt, 4] as Range).Value2 + ")", _connection, transaction);
+                    MessageBox.Show("Test " + ((Range) range.Cells[lastrCnt, 12]).Value2);
                 }
-                catch (SqlException sqlEx)
-                {
-                    MessageBox.Show(@"Terjadi kesalahan dgn pesan : " + sqlEx.Message);
-                    transaction.Rollback();
-                    return;
-                }
-                //MessageBox.Show("Test " + lastrCnt);
             }
             transaction.Commit();
             _connection.Close();
