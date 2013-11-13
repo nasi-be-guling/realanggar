@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Excel;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -91,6 +92,34 @@ namespace RealAnggaran.misc_tool
             SqlTransaction transaction = _connection.BeginTransaction();
             for (rCnt = 2; rCnt <= lastrCnt; rCnt++) //Baris
             {
+                var value2 = ((Range) range.Cells[rCnt, 9]).Value2; // digit terakhir kode rekening = menandakan bahwa ini rekening yg dipakai
+                var value3 = ((Range) range.Cells[rCnt, 2]).Value2; // kode panggil
+                var value4 = ((Range) range.Cells[rCnt, 10]).Value2; // uraian
+                var vPPTK = ((Range)range.Cells[rCnt, 1]).Value2; // pptk
+
+                if (value2 != null && value3 != null && vPPTK == null) // cek apabila ada pptk yg tidak diisi
+                {
+                    MessageBox.Show(@"PPTK pada baris ke : " + rCnt + @" KOSONG");
+                    xlWorkBook.Close(true, misValue, misValue);
+                    xlApp.Quit();
+
+                    releaseObject(xlWorkSheet);
+                    releaseObject(xlWorkBook);
+                    releaseObject(xlApp);
+                    return;
+                }
+
+                if (value2 != null && value3 == null && vPPTK != null) // cek apabila ada kode panggil yg tidak diisi
+                {
+                    MessageBox.Show(@"KODE PANGGIL pada baris ke : " + rCnt + @" KOSONG");
+                    xlWorkBook.Close(true, misValue, misValue);
+                    xlApp.Quit();
+
+                    releaseObject(xlWorkSheet);
+                    releaseObject(xlWorkBook);
+                    releaseObject(xlApp);
+                    return;
+                }
                 //try
                 //{
                 //    _connect.MasukkanData("UPDATE [KASDA].[dbo].[ANGKAS_DTL] set tot_angkas = " +
@@ -109,25 +138,77 @@ namespace RealAnggaran.misc_tool
                 //    transaction.Rollback();
                 //    return;
                 //}
-                if (Convert.ToString(((Range) range.Cells[lastrCnt, 2]).Value2) == "")
-                {
-                    MessageBox.Show("Test " + ((Range) range.Cells[lastrCnt, 12]).Value2);
-                }
+                //if (value2 != null && value3 != null &&
+                //    !CekIfKeyNotFound(_connection, transaction, value3.ToString().Trim()))
+                //{
+                //    MessageBox.Show("Test : " + value3);
+                //}
+                //else
+                //{
+                //    if (value4.ToString().Contains(@"*"))
+                //        MessageBox.Show("subsidi : " + rCnt);
+                //}
             }
             transaction.Commit();
             _connection.Close();
 
-            xlWorkBook.Close(true, misValue, misValue);
-            xlApp.Quit();
+            finish:
+            {
+                xlWorkBook.Close(true, misValue, misValue);
+                xlApp.Quit();
 
-            releaseObject(xlWorkSheet);
-            releaseObject(xlWorkBook);
-            releaseObject(xlApp);
+                releaseObject(xlWorkSheet);
+                releaseObject(xlWorkBook);
+                releaseObject(xlApp);
+            }
         }
+
+        //private void updatedb()
+        //{
+            
+        //}
+
+        //private void 
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             button2.Enabled = true;
-        } 
+        }
+        /// <summary>
+        /// created         : nov-08-2013
+        /// creator         : Putu
+        /// name            : cekIfKeyNotFound
+        /// description     : fungsi untuk mencek apabila value yg dimasukan ada atau tidak pada database
+        /// </summary>
+        /// <param name="sqlConnection"></param>
+        /// <param name="transaction"></param>
+        /// <param name="keystring"></param>
+        /// <returns>jika nilai bool true maka update</returns>
+        private bool CekIfKeyNotFound(SqlConnection sqlConnection, SqlTransaction transaction, string keystring)
+        {
+            SqlDataReader reader =
+                _connect.MembacaData(
+                    "SELECT     a.Id_Rinci_RS, REALANGGAR.dbo.A_REKENING.Id_Reken, REALANGGAR.dbo.A_REKENING.Kd_Reken " +
+                    "FROM         KASDA..AKD_RINCIAN a INNER JOIN " +
+                    "REALANGGAR.dbo.A_REKENING ON a.Id_Rinci_RS = REALANGGAR.dbo.A_REKENING.Kd_Reken " +
+                    "WHERE     (REPLACE(REPLACE(REPLACE(a.Id_Rinci_RS, ' ', ''), CHAR(10), ''), CHAR(13), '') = '" + keystring + "') ", sqlConnection, transaction);
+
+            if (reader.HasRows)
+            {
+                reader.Close();
+                return true;
+            }
+            reader.Close();
+            return false;
+        }
+
+        private void FPak_Load(object sender, EventArgs e)
+        {
+            //foreach (Process proc in Process.GetProcessesByName("EXCEL"))
+            //{
+            //    if (proc.MainWindowTitle == "")
+            //        proc.Kill();
+            //}
+        }
     }
 }

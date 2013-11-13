@@ -72,7 +72,7 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // fPAK
+            // FPak
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -82,6 +82,7 @@
             this.Controls.Add(this.textBox1);
             this.Name = "FPak";
             this.Text = "fPAK";
+            this.Load += new System.EventHandler(this.FPak_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

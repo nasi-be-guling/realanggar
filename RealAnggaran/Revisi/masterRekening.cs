@@ -121,7 +121,7 @@ namespace RealAnggaran.Revisi
                         txtUraian.Text = "";
                         txtSubsidi.Text = "0";
                         txtFungsi.Text = "0";
-                        txtIdRinciRS.Text = (Convert.ToDecimal(txtIdRinciRS.Text) + 1).ToString();
+                        //txtIdRinciRS.Text = (Convert.ToDecimal(txtIdRinciRS.Text) + 1).ToString();
                     }
                     catch (Exception ex)
                     {

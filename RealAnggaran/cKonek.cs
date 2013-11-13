@@ -152,6 +152,23 @@ namespace RealAnggaran
             return pembaca;
         }
 
+        public SqlDataReader MembacaData(string queryBaca, SqlConnection koneksiAktip, SqlTransaction transaction)
+        {
+            SqlCommand selectCommand = new SqlCommand(queryBaca, koneksiAktip, transaction);
+            SqlDataReader pembaca = null;
+            try
+            {
+                pembaca = selectCommand.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                if (pembaca != null)
+                    pembaca.Close();
+            }
+            return pembaca;
+        }
+
         public string PengambilPKey(string qbaca)
         {
             SqlConnection koneksiAktip = KonekDb();
