@@ -73,119 +73,20 @@ namespace RealAnggaran.misc_tool
                 GC.Collect();
             }
         }
-
+        /// <summary>
+        /// Implementasi EEPLUS
+        /// -----------------------------------------------------------------------------------
+        /// | WARNING : PERHATIAN                                                             |
+        /// | TARGET FRAMEWORK HARUS MENGGUNAKAN FULL FRAMEWORK DOT NET, BUKAN CLIENT PROFILE |
+        /// | CONTOH .NET FRAMEWORK 3.5 BUKAN .NET FRAMEWORK 3.5 CLIENT PROFILE               |
+        /// ---------------------- ------------------------------------------------------------
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            // ====================================================
-            // | Commplete code snipet ada di berkas fBacaForm.cs |
-            // ====================================================
-
-            //System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
-
-            //int rCnt;
-            //int lastrCnt = HitungBaris();
-
-            //object misValue = System.Reflection.Missing.Value;
-
-            //Excel.Application xlApp = new ApplicationClass();
-            //Workbook xlWorkBook = xlApp.Workbooks.Open(textBox1.Text, 0,
-            //    true, 5, "", "", true, XlPlatform.xlWindows,
-            //    "\t", false, false, 0, true, 1, 0);
-            ////Worksheet xlWorkSheet = (Worksheet)xlWorkBook.Worksheets.get_Item(1);
-
-            //Sheets sheets = xlWorkBook.Worksheets;
-
-            //Worksheet worksheet = (Worksheet) sheets.get_Item(1);
-
-            //Range range = worksheet.UsedRange;
-
-            //_connection.Open();
-            //SqlTransaction transaction = _connection.BeginTransaction();
-            //for (rCnt = 2; rCnt <= lastrCnt; rCnt++) //Baris
-            //{
-            //    var value2 = ((Range) range.Cells[rCnt, 9]).Value2; // digit terakhir kode rekening = menandakan bahwa ini rekening yg dipakai
-            //    var value3 = ((Range) range.Cells[rCnt, 2]).Value2; // kode panggil
-            //    var value4 = ((Range) range.Cells[rCnt, 10]).Value2; // uraian
-            //    var vPPTK = ((Range) range.Cells[rCnt, 1]).Value2; // pptk
-
-            //    if (value2 != null && value3 != null && vPPTK == null) // cek apabila ada pptk yg tidak diisi
-            //    {
-            //        MessageBox.Show(@"PPTK pada baris ke : " + rCnt + @" KOSONG");
-            //        xlWorkBook.Close(true, misValue, misValue);
-            //        xlApp.Quit();
-
-            //        releaseObject(worksheet);
-            //        releaseObject(xlWorkBook);
-            //        releaseObject(xlApp);
-
-            //        xlApp = null;
-
-            //        return;
-            //    }
-
-            //    if (value2 != null && value3 == null && vPPTK != null) // cek apabila ada kode panggil yg tidak diisi
-            //    {
-            //        MessageBox.Show(@"KODE PANGGIL pada baris ke : " + rCnt + @" KOSONG");
-            //        xlWorkBook.Close(true, misValue, misValue);
-            //        xlApp.Quit();
-
-            //        releaseObject(worksheet);
-            //        releaseObject(xlWorkBook);
-            //        releaseObject(xlApp);
-
-
-            //        xlApp = null;
-            //        return;
-            //    }
-            //    //try
-            //    //{
-            //    //    _connect.MasukkanData("UPDATE [KASDA].[dbo].[ANGKAS_DTL] set tot_angkas = " +
-            //    //        (range.Cells[rCnt, 2] as Range).Value2 + ", tot_sblm_pak = " +
-            //    //        (range.Cells[rCnt, 1] as Range).Value2 + " where id_rinci_rs = '" +
-            //    //        (range.Cells[rCnt, 4] as Range).Value2 + "'", _connection, transaction);
-            //    //    _connect.MasukkanData("INSERT into [REALANGGAR].[dbo].[T_PAK] values (getdate(), " +
-            //    //        (range.Cells[rCnt, 1] as Range).Value2 + ", " +
-            //    //        (range.Cells[rCnt, 2] as Range).Value2 + ", " +
-            //    //        (range.Cells[rCnt, 3] as Range).Value2 + ", " +
-            //    //        (range.Cells[rCnt, 4] as Range).Value2 + ")", _connection, transaction);
-            //    //}
-            //    //catch (SqlException sqlEx)
-            //    //{
-            //    //    MessageBox.Show(@"Terjadi kesalahan dgn pesan : " + sqlEx.Message);
-            //    //    transaction.Rollback();
-            //    //    return;
-            //    //}
-            //    //if (value2 != null && value3 != null &&
-            //    //    !CekIfKeyNotFound(_connection, transaction, value3.ToString().Trim()))
-            //    //{
-            //    //    MessageBox.Show("Test : " + value3);
-            //    //}
-            //    //else
-            //    //{
-            //    //    if (value4.ToString().Contains(@"*"))
-            //    //        MessageBox.Show("subsidi : " + rCnt);
-            //    //}
-            //}
-            //transaction.Commit();
-            //_connection.Close();
-            //xlWorkBook.Close(true, misValue, misValue);
-            //xlApp.Quit();
-
-            //releaseObject(worksheet);
-            //releaseObject(xlWorkBook);
-            //releaseObject(xlApp);
-
-            //Marshal.ReleaseComObject(range);
-            //Marshal.ReleaseComObject(worksheet);
-            //Marshal.ReleaseComObject(sheets);
-            //Marshal.ReleaseComObject(xlWorkBook);
-            //Marshal.ReleaseComObject(xlApp);
             
-            //xlApp = null;
-            
-            //var fileName = string.Format("{0}\\fileNameHere", Directory.GetCurrentDirectory());
-            //var connectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0; data source={0}; Extended Properties=Excel 8.0;", fileName);
-  
+
             FileInfo excelFile = new FileInfo(textBox1.Text);
             ExcelPackage paket = new ExcelPackage(excelFile);
             ExcelWorkbook workBook = paket.Workbook;
@@ -197,9 +98,16 @@ namespace RealAnggaran.misc_tool
                     ExcelWorksheet currentWorksheet = workBook.Worksheets.First();
                     for (int theRows = 1; theRows <= currentWorksheet.Dimension.End.Row; theRows++)
                     {
-                        object cellValue = currentWorksheet.Cells[theRows, 1].Value;
+                        object cellPPTK = currentWorksheet.Cells[theRows, 1].Value;
+                        object cellKodePanggil = currentWorksheet.Cells[theRows, 2].Value;
+                        object cellDigitTerakhir = currentWorksheet.Cells[theRows, 9].Value;
+                        object celltest = currentWorksheet.Cells[theRows, 10].Value;
 
-                        MessageBox.Show(cellValue.ToString());
+                        if (cellPPTK != null && cellKodePanggil != null && cellDigitTerakhir != null)
+                        {
+                            if ((string)celltest == "")
+                                MessageBox.Show(celltest.ToString());
+                        }
                     }
                 }
             }

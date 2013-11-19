@@ -60,7 +60,7 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "excel file";
-            this.openFileDialog1.Filter = "Excel 2003 files | *.xls";
+            this.openFileDialog1.Filter = "Excel 2007 files | *.xlsx";
             // 
             // button2
             // 
