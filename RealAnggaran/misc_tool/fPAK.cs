@@ -85,8 +85,6 @@ namespace RealAnggaran.misc_tool
         /// <param name="e"></param>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            
-
             FileInfo excelFile = new FileInfo(textBox1.Text);
             ExcelPackage paket = new ExcelPackage(excelFile);
             ExcelWorkbook workBook = paket.Workbook;
@@ -98,15 +96,19 @@ namespace RealAnggaran.misc_tool
                     ExcelWorksheet currentWorksheet = workBook.Worksheets.First();
                     for (int theRows = 1; theRows <= currentWorksheet.Dimension.End.Row; theRows++)
                     {
+                        
                         object cellPPTK = currentWorksheet.Cells[theRows, 1].Value;
                         object cellKodePanggil = currentWorksheet.Cells[theRows, 2].Value;
                         object cellDigitTerakhir = currentWorksheet.Cells[theRows, 9].Value;
                         object celltest = currentWorksheet.Cells[theRows, 10].Value;
-
-                        if (cellPPTK != null && cellKodePanggil != null && cellDigitTerakhir != null)
+                        if (cellPPTK == null || cellKodePanggil == null || cellDigitTerakhir == null)
                         {
-                            if ((string)celltest == "")
+                            //if (string.IsNullOrEmpty((string)cellPPTK) || 
+                            //    (string.IsNullOrEmpty((string)cellKodePanggil) || 
+                            //    (string.IsNullOrEmpty((string)cellDigitTerakhir))))
+                            {
                                 MessageBox.Show(celltest.ToString());
+                            }                         
                         }
                     }
                 }
