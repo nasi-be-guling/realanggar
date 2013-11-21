@@ -101,18 +101,38 @@ namespace RealAnggaran.misc_tool
                         object cellKodePanggil = currentWorksheet.Cells[theRows, 2].Value;
                         object cellDigitTerakhir = currentWorksheet.Cells[theRows, 9].Value;
                         object celltest = currentWorksheet.Cells[theRows, 10].Value;
-                        if (cellPPTK == null || cellKodePanggil == null || cellDigitTerakhir == null)
+
+                        if (string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
+                             (!string.IsNullOrEmpty(NullToString(cellDigitTerakhir))))
                         {
-                            //if (string.IsNullOrEmpty((string)cellPPTK) || 
-                            //    (string.IsNullOrEmpty((string)cellKodePanggil) || 
-                            //    (string.IsNullOrEmpty((string)cellDigitTerakhir))))
-                            {
-                                MessageBox.Show(celltest.ToString());
-                            }                         
+                            MessageBox.Show(@"KODE PANGGIL tidak dilengkapi pada baris ke - " + theRows);
+                            e.Cancel = true;
+                            return;
                         }
+
+                        if (string.IsNullOrEmpty(NullToString(cellPPTK)) &&
+                            (!string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
+                             (!string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))))
+                        {
+                            MessageBox.Show(@"PPTK tidak dilengkapi pada baris ke - " + theRows);
+                            e.Cancel = true;
+                            return;
+                        }
+
+
                     }
                 }
             }
+        }
+
+        private string NullToString(object value)
+        {
+            // Value.ToString() allows for Value being DBNull, but will also convert int, double, etc.
+            return value == null ? "" : value.ToString();
+
+            // If this is not what you want then this form may suit you better, handles 'Null' and DBNull otherwise tries a straight cast
+            // which will throw if Value isn't actually a string object.
+            //return Value == null || Value == DBNull.Value ? "" : (string)Value;
         }
 
         //private void updatedb()
