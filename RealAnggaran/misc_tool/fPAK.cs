@@ -8,10 +8,12 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using Microsoft.Office.Interop.Excel;
-using DataTable = System.Data.DataTable;
-using Excel = Microsoft.Office.Interop.Excel;
+using ExcelLibrary.SpreadSheet;
 using OfficeOpenXml;
+using QiHe.CodeLib;
+using ExcelLibrary.CompoundDocumentFormat;
+using ExcelLibrary.BinaryFileFormat;
+using ExcelLibrary.BinaryDrawingFormat;
 
 namespace RealAnggaran.misc_tool
 {
@@ -34,23 +36,6 @@ namespace RealAnggaran.misc_tool
             }
         }
 
-        private int HitungBaris(bool isbaris = true)
-        {
-            Excel.Application xlApp = new ApplicationClass();
-            Workbook xlWorkBook = xlApp.Workbooks.Open(textBox1.Text, 0,
-                true, 5, "", "", true, XlPlatform.xlWindows,
-                "\t", false, false, 0, true, 1, 0);
-            Worksheet xlWorkSheet = (Worksheet)xlWorkBook.Worksheets.get_Item(1);
-
-            Range last = xlWorkSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing);
-            Range range = xlWorkSheet.get_Range("A1", last);
-
-            if (isbaris)
-                return last.Row;
-           
-            return last.Column;
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
             if (!backgroundWorker1.IsBusy)
@@ -58,21 +43,6 @@ namespace RealAnggaran.misc_tool
             button2.Enabled = false;
         }
 
-        private void releaseObject(object obj)
-        {
-            try
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(@"Unable to release the Object " + ex);
-            }
-            finally
-            {
-                GC.Collect();
-            }
-        }
         /// <summary>
         /// Implementasi EEPLUS
         /// -----------------------------------------------------------------------------------
@@ -85,18 +55,33 @@ namespace RealAnggaran.misc_tool
         /// <param name="e"></param>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            FileInfo excelFile = new FileInfo(textBox1.Text);
-            ExcelPackage paket = new ExcelPackage(excelFile);
+            /* ======================================================================================================
+             * | Implementasi baca excel dengan 2 metode                                                            |
+             * |    #1 EEPLUS = hanya bisa membaca open office document *.xlsx                                      |
+             * |    #2 ExcelLibrary = hanya bisa membaca open office document *.xls                                 |
+             * |                                                                                                    |
+             * | Metode untuk membuka file, menggunakan FileStream instead of FileInfo, karena menggunakan FileInfo |
+             * | akan menghasilkan error apabila file yg akan dibaca masih dipergunakan oleh program lainnya        |
+             * ======================================================================================================
+             * */
+
+            //FileInfo fileInfo = new FileInfo(textBox1.Text); // ==> metode lama, menghasilkan System.IO.IOException was unhandled by user code
+                                                             //     Message=The process cannot access the file 'D:\Book1.xlsx' because it is being used by another process.
+            FileStream logFileStream = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            ExcelPackage paket = new ExcelPackage(logFileStream);
             ExcelWorkbook workBook = paket.Workbook;
+
+            _connection.Open();
+            SqlTransaction transaction = _connection.BeginTransaction();
 
             if (workBook != null)
             {
                 if (workBook.Worksheets.Count > 0)
                 {
                     ExcelWorksheet currentWorksheet = workBook.Worksheets.First();
-                    for (int theRows = 1; theRows <= currentWorksheet.Dimension.End.Row; theRows++)
+                    for (int theRows = 2; theRows <= currentWorksheet.Dimension.End.Row; theRows++)
                     {
-                        
+
                         object cellPPTK = currentWorksheet.Cells[theRows, 1].Value;
                         object cellKodePanggil = currentWorksheet.Cells[theRows, 2].Value;
                         object cellDigitTerakhir = currentWorksheet.Cells[theRows, 9].Value;
@@ -107,6 +92,7 @@ namespace RealAnggaran.misc_tool
                         {
                             MessageBox.Show(@"KODE PANGGIL tidak dilengkapi pada baris ke - " + theRows);
                             e.Cancel = true;
+                            _connection.Close();
                             return;
                         }
 
@@ -116,13 +102,67 @@ namespace RealAnggaran.misc_tool
                         {
                             MessageBox.Show(@"PPTK tidak dilengkapi pada baris ke - " + theRows);
                             e.Cancel = true;
+                            _connection.Close();
                             return;
                         }
 
-
+                        if (CekIfKeyNotFound(_connection, transaction, NullToString(cellKodePanggil)) &&
+                            !string.IsNullOrEmpty(NullToString(cellPPTK)) &&
+                            !string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
+                            !string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))
+                        {
+                            MessageBox.Show("update pada baris : " + theRows);
+                        }
+                        else if (!CekIfKeyNotFound(_connection, transaction, NullToString(cellKodePanggil)) &&
+                            !string.IsNullOrEmpty(NullToString(cellPPTK)) &&
+                            !string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
+                            !string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))
+                        {
+                            MessageBox.Show("insert pada baris : " + theRows);
+                        }
                     }
                 }
             }
+            _connection.Close();
+
+            //create new xls file
+            //string file = "C:\\newdoc.xls";
+            //Workbook workbook = new Workbook();
+            //Worksheet worksheet = new Worksheet("First Sheet");
+            //worksheet.Cells[0, 1] = new Cell((short)1);
+            //worksheet.Cells[2, 0] = new Cell(9999999);
+            //worksheet.Cells[3, 3] = new Cell((decimal)3.45);
+            //worksheet.Cells[2, 2] = new Cell("Text string");
+            //worksheet.Cells[2, 4] = new Cell("Second string");
+            //worksheet.Cells[4, 0] = new Cell(32764.5, "#,##0.00");
+            //worksheet.Cells[5, 1] = new Cell(DateTime.Now, @"YYYY\-MM\-DD");
+            //worksheet.Cells.ColumnWidth[0, 1] = 3000;
+            //workbook.Worksheets.Add(worksheet);
+            //workbook.Save(file);
+            ////=========================================
+
+            
+            //Workbook book = Workbook.Load(logFileStream);
+            //Worksheet sheet = book.Worksheets[0];
+
+            //// traverse cells
+            //foreach (Pair<Pair<int, int>, Cell> cell in sheet.Cells)
+            //{
+            //    //dgvCells[cell.Left.Right, cell.Left.Left].Value = cell.Right.Value;
+            //    MessageBox.Show("Test");
+            //}
+
+            //// traverse rows by Index
+            //for (int rowIndex = sheet.Cells.FirstRowIndex;
+            //       rowIndex <= sheet.Cells.LastRowIndex; rowIndex++)
+            //{
+            //    Row row = sheet.Cells.GetRow(rowIndex);
+            //    for (int colIndex = row.FirstColIndex;
+            //       colIndex <= row.LastColIndex; colIndex++)
+            //    {
+            //        Cell cell = row.GetCell(colIndex);
+            //    }
+            //}
         }
 
         private string NullToString(object value)
@@ -151,6 +191,7 @@ namespace RealAnggaran.misc_tool
         /// creator         : Putu
         /// name            : cekIfKeyNotFound
         /// description     : fungsi untuk mencek apabila value yg dimasukan ada atau tidak pada database
+        ///                 : digunakan pada proses insert (bisa value tidak ditemukan) / update (bila terdapat value)   
         /// </summary>
         /// <param name="sqlConnection"></param>
         /// <param name="transaction"></param>
