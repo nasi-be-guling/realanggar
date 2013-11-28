@@ -45,7 +45,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(250, 12);
+            this.button1.Location = new System.Drawing.Point(250, 10);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(104, 23);
             this.button1.TabIndex = 1;
@@ -62,11 +62,11 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "excel file";
-            this.openFileDialog1.Filter = "Excel 2007 files | *.xlsx";
+            this.openFileDialog1.Filter = "Excel 2003 files | *.xls";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(360, 12);
+            this.button2.Location = new System.Drawing.Point(360, 10);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
@@ -84,7 +84,6 @@
             this.Controls.Add(this.textBox1);
             this.Name = "FPak";
             this.Text = "fPAK";
-            this.Load += new System.EventHandler(this.FPak_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

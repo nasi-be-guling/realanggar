@@ -148,13 +148,13 @@ namespace RealAnggaran.Revisi
             decimal i = 0;
             decimal totalBayar = Convert.ToDecimal(filtertxt(txtJmlBayar.Text.Trim()));// + 
             koneksi.Open();
-            string query = "SELECT     B.Tot_Angkas - (SUM(COALESCE (A.TFungsi, 0)) + SUM(COALESCE (A.TSubsi, 0))) AS Expr1 " +
-                      "FROM         KASDA.dbo.BLJ_DETAIL AS A INNER JOIN " +
-                      "KASDA.dbo.BLJ_MASTER AS C ON A.IdBlj_Master = C.IdBlj_Master AND C.Lunas = 'Y' RIGHT OUTER JOIN " +
-                      "KASDA.dbo.ANGKAS_DTL AS B ON B.Id_Rinci_Rs = A.Id_Rinci_Rs " +
-                      "WHERE     (B.Id_Rinci_Rs = '" + txtNoRek.Text.Trim() + "') " +
-                      "GROUP BY B.Tot_Angkas";
-            reader = konek.MembacaData(query, koneksi);
+            string queryBaca = "SELECT     B.Tot_Angkas - (SUM(COALESCE (A.TFungsi, 0)) + SUM(COALESCE (A.TSubsi, 0))) AS Expr1 " +
+                               "FROM         KASDA.dbo.BLJ_DETAIL AS A INNER JOIN " +
+                               "KASDA.dbo.BLJ_MASTER AS C ON A.IdBlj_Master = C.IdBlj_Master AND C.Lunas = 'Y' RIGHT OUTER JOIN " +
+                               "KASDA.dbo.ANGKAS_DTL AS B ON B.Id_Rinci_Rs = A.Id_Rinci_Rs " +
+                               "WHERE     (B.Id_Rinci_Rs = '" + txtNoRek.Text.Trim() + "') " +
+                               "GROUP BY B.Tot_Angkas";
+            reader = konek.MembacaData(queryBaca, koneksi);
             if (reader.HasRows)
             {
                 reader.Read();

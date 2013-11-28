@@ -444,6 +444,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Revisi\fDetail_fCekSaldoPPTK.resx">
+      <DependentUpon>fDetail_fCekSaldoPPTK.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Revisi\fKasir.resx">
       <DependentUpon>fKasir.cs</DependentUpon>
     </EmbeddedResource>
@@ -481,6 +484,12 @@
     </Compile>
     <Compile Include="Revisi\fCekAnggaran.Designer.cs">
       <DependentUpon>fCekAnggaran.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Revisi\fDetail_fCekSaldoPPTK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Revisi\fDetail_fCekSaldoPPTK.Designer.cs">
+      <DependentUpon>fDetail_fCekSaldoPPTK.cs</DependentUpon>
     </Compile>
     <Compile Include="Revisi\fKasir.cs">
       <SubType>Form</SubType>

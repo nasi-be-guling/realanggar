@@ -1,0 +1,56 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace RealAnggaran.Revisi
+{
+    public partial class FDetailFCekSaldoPPTK : Form
+    {
+        CKonek _connect = new CKonek();
+        CAlat _tools = new CAlat();
+        private readonly SqlConnection _connection;
+        private string _query;
+
+        public FDetailFCekSaldoPPTK()
+        {
+            _connection = _connect.KonekDb();
+            InitializeComponent();
+        }
+
+        public void ShowData(string kdPanggil)
+        {
+            _connection.Open();
+            _query = "SELECT b.No_SPK, b.Tgl_SP, b.IdSupplier, b.Keter, b.No_Bukti, b.Lunas, b.TGL_SPJ, " +
+                "a.Id_Rinci_Rs, a.TSubsi, a.TFungsi " +
+                "FROM KASDA.dbo.BLJ_DETAIL a INNER JOIN KASDA.dbo.BLJ_MASTER b ON a.IdBlj_Master = b.IdBlj_Master " +
+                "WHERE a.Id_Rinci_Rs = '"+kdPanggil+"'";
+            SqlDataReader reader = _connect.MembacaData(_query, _connection);
+                    if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    ListViewItem item = new ListViewItem(_tools.PengecekField(reader, 0));
+                    item.SubItems.Add(_tools.PengecekField(reader, 1));
+                    item.SubItems.Add(_tools.PengecekField(reader, 2));
+                    item.SubItems.Add(_tools.PengecekField(reader, 3));
+                    item.SubItems.Add(_tools.PengecekField(reader, 4));
+                    item.SubItems.Add(_tools.PengecekField(reader, 5));
+                    item.SubItems.Add(_tools.PengecekField(reader, 6));
+                    item.SubItems.Add(_tools.PengecekField(reader, 7));
+                    item.SubItems.Add(_tools.PengecekField(reader, 8));
+                    item.SubItems.Add(_tools.PengecekField(reader, 9));
+                    listView1.Items.Add(item);
+                }
+                _tools.AutoresizeLv(listView1, 10);
+                reader.Close();
+            }
+            _connection.Close();
+        }
+    }
+}

@@ -546,5 +546,24 @@ namespace RealAnggaran
         {
             return Application.OpenForms.Cast<Form>().FirstOrDefault(openForm => openForm.GetType() == tipeForm);
         }
+        /// <summary>
+        /// DESC :  this function is a copy-paste code from class c4module created by Eka Rudito
+        /// FUNC :  to automatically resize column of an ListView            
+        /// </summary>
+        /// <param name="lv"></param>
+        /// <param name="intColsCount"></param>
+        public void AutoresizeLv(ListView lv, int intColsCount)
+        {
+            //int ii = 0;
+            //for (ii = 0; ii <= intColsCount - 1; ++ii)
+            //    cSaveInvoke.SafeControlInvoke<ListView>(lv, (cSaveInvoke.SafeControlInvokeHandler<ListView>)(ListView => lv.AutoResizeColumn(ii, ColumnHeaderAutoResizeStyle.ColumnContent)));
+            //for (ii = 0; ii <= intColsCount - 1; ++ii)
+            //    cSaveInvoke.SafeControlInvoke<ListView>(lv, (cSaveInvoke.SafeControlInvokeHandler<ListView>)(ListView => lv.AutoResizeColumn(ii, ColumnHeaderAutoResizeStyle.HeaderSize)));
+            int ii = 0;
+            for (ii = 0; ii <= intColsCount - 1; ++ii)
+                lv.AutoResizeColumn(ii, ColumnHeaderAutoResizeStyle.ColumnContent);
+            for (ii = 0; ii <= intColsCount - 1; ++ii)
+                lv.AutoResizeColumn(ii, ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
     }
 }

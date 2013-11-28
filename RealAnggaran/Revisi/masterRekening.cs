@@ -116,7 +116,6 @@ namespace RealAnggaran.Revisi
                             "" + jumlahFungSub + ", '" + jumlahFungSub + "', '" + txtUraian.Text + "', '" + txtKdKelompok.Text + "', '" + txtkdJenis.Text + "', '" + txtKdObjek.Text + "', '" + txtkdRincian.Text + "', '" + txtKtgBlj.Text + "', '" + DateTime.Now.Year + "')", koneksi, tran);
                         konek.MasukkanData("INSERT INTO KASDA..AKD_RINCIAN VALUES ('" + txtIdRinciRS.Text + "', '" + txtKdKelompok.Text + "', '" + txtkdJenis.Text + "', '" + txtKdObjek.Text + "', " +
                             "'" + txtkdRincian.Text + "', '" + txtKtgBlj.Text + "', '" + txtUraian.Text + "', '" + txtProgram.Text + "', '" + txtKegiatan.Text + "', '" + txtNoRek.Text + "')", koneksi, tran);
-                        tran.Commit();
                         MessageBox.Show("TERSIMPAN", "PERHATIAN");
                         txtUraian.Text = "";
                         txtSubsidi.Text = "0";
@@ -128,6 +127,7 @@ namespace RealAnggaran.Revisi
                         MessageBox.Show("Terjadi kesalahan : \n" + ex.Message + "\nHubungi teknisi anda.", "PERHATIAN");
                         tran.Rollback();
                     }
+                    tran.Commit();
                 }
                 else if (statusUpdate == 1)
                 {
@@ -145,7 +145,6 @@ namespace RealAnggaran.Revisi
                         konek.MasukkanData(query1, koneksi, tran);
                         konek.MasukkanData(query2, koneksi, tran);
                         konek.MasukkanData(query3, koneksi, tran);
-                        tran.Commit();
                         MessageBox.Show("TERSIMPAN", "PERHATIAN");
                         txtUraian.Text = "";
                         txtSubsidi.Text = "0";
@@ -157,6 +156,7 @@ namespace RealAnggaran.Revisi
                         MessageBox.Show("Terjadi kesalahan : \n" + ex.Message + "\nHubungi teknisi anda.", "PERHATIAN");
                         tran.Rollback();
                     }
+                    tran.Commit();
                 }
                 koneksi.Close();
                 statusUpdate = 0;

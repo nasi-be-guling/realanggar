@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Threading;
+using RealAnggaran.Revisi;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.IO;
 
@@ -21,6 +22,7 @@ namespace RealAnggaran.misc_tool
         string query = null;
         int statusPencarian = 1;
         int statusClose = 0;
+        private FDetailFCekSaldoPPTK formDetail;
 
         public fCekSaldoPPTK()
         {
@@ -348,6 +350,26 @@ namespace RealAnggaran.misc_tool
             if (this.openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 textBox4.Text = openFileDialog1.FileName;
+            }
+        }
+
+        private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if ((formDetail = (FDetailFCekSaldoPPTK)alat.FormSudahDibuat(typeof(FDetailFCekSaldoPPTK))) == null)
+            {
+                formDetail = new FDetailFCekSaldoPPTK
+                {
+                    StartPosition = FormStartPosition.CenterScreen,
+                    label2 = {Text = listView1.Items[0].SubItems[1].Text},
+                };
+                formDetail.ShowData(listView1.Items[0].SubItems[1].Text);
+                formDetail.Show();
+            }
+            else
+            {
+                formDetail.label2.Text = listView1.Items[0].SubItems[1].Text;
+                formDetail.ShowData(listView1.Items[0].SubItems[1].Text);
+                formDetail.Select();
             }
         }
     }

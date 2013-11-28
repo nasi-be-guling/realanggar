@@ -55,6 +55,7 @@ namespace RealAnggaran.misc_tool
         /// <param name="e"></param>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            #region CONTOH IMPLEMENTASI EPPLUS DAN EXCELLIBRARY
             /* ======================================================================================================
              * | Implementasi baca excel dengan 2 metode                                                            |
              * |    #1 EEPLUS = hanya bisa membaca open office document *.xlsx                                      |
@@ -66,64 +67,60 @@ namespace RealAnggaran.misc_tool
              * */
 
             //FileInfo fileInfo = new FileInfo(textBox1.Text); // ==> metode lama, menghasilkan System.IO.IOException was unhandled by user code
-                                                             //     Message=The process cannot access the file 'D:\Book1.xlsx' because it is being used by another process.
-            FileStream logFileStream = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            ExcelPackage paket = new ExcelPackage(logFileStream);
-            ExcelWorkbook workBook = paket.Workbook;
+            //     Message=The process cannot access the file 'D:\Book1.xlsx' because it is being used by another process.
+            //FileStream logFileStream = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            //ExcelPackage paket = new ExcelPackage(logFileStream);
+            //ExcelWorkbook workBook = paket.Workbook;
 
-            _connection.Open();
-            SqlTransaction transaction = _connection.BeginTransaction();
+            //if (workBook != null)
+            //{
+            //    if (workBook.Worksheets.Count > 0)
+            //    {
+            //        ExcelWorksheet currentWorksheet = workBook.Worksheets.First();
+            //        for (int theRows = 2; theRows <= currentWorksheet.Dimension.End.Row; theRows++)
+            //        {
 
-            if (workBook != null)
-            {
-                if (workBook.Worksheets.Count > 0)
-                {
-                    ExcelWorksheet currentWorksheet = workBook.Worksheets.First();
-                    for (int theRows = 2; theRows <= currentWorksheet.Dimension.End.Row; theRows++)
-                    {
+            //            object cellPPTK = currentWorksheet.Cells[theRows, 1].Value;
+            //            object cellKodePanggil = currentWorksheet.Cells[theRows, 2].Value;
+            //            object cellDigitTerakhir = currentWorksheet.Cells[theRows, 9].Value;
+            //            object celltest = currentWorksheet.Cells[theRows, 10].Value;
 
-                        object cellPPTK = currentWorksheet.Cells[theRows, 1].Value;
-                        object cellKodePanggil = currentWorksheet.Cells[theRows, 2].Value;
-                        object cellDigitTerakhir = currentWorksheet.Cells[theRows, 9].Value;
-                        object celltest = currentWorksheet.Cells[theRows, 10].Value;
+            //            if (string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
+            //                 (!string.IsNullOrEmpty(NullToString(cellDigitTerakhir))))
+            //            {
+            //                MessageBox.Show(@"KODE PANGGIL tidak dilengkapi pada baris ke - " + theRows);
+            //                e.Cancel = true;
+            //                _connection.Close();
+            //                return;
+            //            }
 
-                        if (string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
-                             (!string.IsNullOrEmpty(NullToString(cellDigitTerakhir))))
-                        {
-                            MessageBox.Show(@"KODE PANGGIL tidak dilengkapi pada baris ke - " + theRows);
-                            e.Cancel = true;
-                            _connection.Close();
-                            return;
-                        }
+            //            if (string.IsNullOrEmpty(NullToString(cellPPTK)) &&
+            //                (!string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
+            //                 (!string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))))
+            //            {
+            //                MessageBox.Show(@"PPTK tidak dilengkapi pada baris ke - " + theRows);
+            //                e.Cancel = true;
+            //                _connection.Close();
+            //                return;
+            //            }
 
-                        if (string.IsNullOrEmpty(NullToString(cellPPTK)) &&
-                            (!string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
-                             (!string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))))
-                        {
-                            MessageBox.Show(@"PPTK tidak dilengkapi pada baris ke - " + theRows);
-                            e.Cancel = true;
-                            _connection.Close();
-                            return;
-                        }
-
-                        if (CekIfKeyNotFound(_connection, transaction, NullToString(cellKodePanggil)) &&
-                            !string.IsNullOrEmpty(NullToString(cellPPTK)) &&
-                            !string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
-                            !string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))
-                        {
-                            MessageBox.Show("update pada baris : " + theRows);
-                        }
-                        else if (!CekIfKeyNotFound(_connection, transaction, NullToString(cellKodePanggil)) &&
-                            !string.IsNullOrEmpty(NullToString(cellPPTK)) &&
-                            !string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
-                            !string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))
-                        {
-                            MessageBox.Show("insert pada baris : " + theRows);
-                        }
-                    }
-                }
-            }
-            _connection.Close();
+            //            if (CekIfKeyNotFound(_connection, transaction, NullToString(cellKodePanggil)) &&
+            //                !string.IsNullOrEmpty(NullToString(cellPPTK)) &&
+            //                !string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
+            //                !string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))
+            //            {
+            //                MessageBox.Show("update pada baris : " + theRows);
+            //            }
+            //            else if (!CekIfKeyNotFound(_connection, transaction, NullToString(cellKodePanggil)) &&
+            //                !string.IsNullOrEmpty(NullToString(cellPPTK)) &&
+            //                !string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
+            //                !string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))
+            //            {
+            //                MessageBox.Show("insert pada baris : " + theRows);
+            //            }
+            //        }
+            //    }
+            //}
 
             //create new xls file
             //string file = "C:\\newdoc.xls";
@@ -139,20 +136,21 @@ namespace RealAnggaran.misc_tool
             //worksheet.Cells.ColumnWidth[0, 1] = 3000;
             //workbook.Worksheets.Add(worksheet);
             //workbook.Save(file);
-            ////=========================================
+            ////========================================= 
+            #endregion
 
-            
-            //Workbook book = Workbook.Load(logFileStream);
-            //Worksheet sheet = book.Worksheets[0];
+            FileStream logFileStream = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            Workbook book = Workbook.Load(logFileStream);
+            Worksheet sheet = book.Worksheets[0];
 
-            //// traverse cells
+            // traverse cells => melakukan perjalanan by cells
             //foreach (Pair<Pair<int, int>, Cell> cell in sheet.Cells)
             //{
             //    //dgvCells[cell.Left.Right, cell.Left.Left].Value = cell.Right.Value;
-            //    MessageBox.Show("Test");
+            //    MessageBox.Show(cell.Left.Right.ToString() + " ... " + cell.Left.Left.ToString());
             //}
 
-            //// traverse rows by Index
+            // traverse rows by Index => melakukan perjalanan by rows
             //for (int rowIndex = sheet.Cells.FirstRowIndex;
             //       rowIndex <= sheet.Cells.LastRowIndex; rowIndex++)
             //{
@@ -161,8 +159,60 @@ namespace RealAnggaran.misc_tool
             //       colIndex <= row.LastColIndex; colIndex++)
             //    {
             //        Cell cell = row.GetCell(colIndex);
+            //        MessageBox.Show(cell.ToString());
             //    }
             //}
+
+            _connection.Open();
+            SqlTransaction transaction = _connection.BeginTransaction();
+
+            for (int rowIndex = sheet.Cells.FirstRowIndex + 1;
+                   rowIndex <= sheet.Cells.LastRowIndex; rowIndex++)
+            {
+                Cell cellPPTK = sheet.Cells[rowIndex, 0];
+                Cell cellKodePanggil = sheet.Cells[rowIndex, 1];
+                Cell cellDigitTerakhir = sheet.Cells[rowIndex, 8];
+
+                int actualRow = rowIndex + 1;
+
+                if (string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
+                     (!string.IsNullOrEmpty(NullToString(cellDigitTerakhir))))
+                {
+                    MessageBox.Show(@"KODE PANGGIL tidak dilengkapi pada baris ke - " + actualRow);
+                    e.Cancel = true;
+                    _connection.Close();
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(NullToString(cellPPTK)) &&
+                    (!string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
+                     (!string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))))
+                {
+                    MessageBox.Show(@"PPTK tidak dilengkapi pada baris ke - " + actualRow);
+                    e.Cancel = true;
+                    _connection.Close();
+                    return;
+                }
+
+                if (CekIfKeyNotFound(_connection, transaction, NullToString(cellKodePanggil)) &&
+                    !string.IsNullOrEmpty(NullToString(cellPPTK)) &&
+                    !string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
+                    !string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))
+                {
+                    //MessageBox.Show(@"update pada baris : " + actualRow);
+
+                }
+                else if (!CekIfKeyNotFound(_connection, transaction, NullToString(cellKodePanggil)) &&
+                    !string.IsNullOrEmpty(NullToString(cellPPTK)) &&
+                    !string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
+                    !string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))
+                {
+                    //MessageBox.Show(@"insert pada baris : " + actualRow);
+
+                }
+            }
+
+            _connection.Close();
         }
 
         private string NullToString(object value)
@@ -213,15 +263,6 @@ namespace RealAnggaran.misc_tool
             }
             reader.Close();
             return false;
-        }
-
-        private void FPak_Load(object sender, EventArgs e)
-        {
-            //foreach (Process proc in Process.GetProcessesByName("EXCEL"))
-            //{
-            //    if (proc.MainWindowTitle == "")
-            //        proc.Kill();
-            //}
         }
     }
 }
