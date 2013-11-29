@@ -16,7 +16,7 @@ namespace RealAnggaran
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new fCekSaldoPPTK());
+            Application.Run(new FPak());
         }
     }
 }

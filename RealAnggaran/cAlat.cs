@@ -565,5 +565,18 @@ namespace RealAnggaran
             for (ii = 0; ii <= intColsCount - 1; ++ii)
                 lv.AutoResizeColumn(ii, ColumnHeaderAutoResizeStyle.HeaderSize);
         }
+        public string NullToString(object value)
+        {
+            // Value.ToString() allows for Value being DBNull, but will also convert int, double, etc.
+            return value == null ? "" : value.ToString();
+
+            // If this is not what you want then this form may suit you better, handles 'Null' and DBNull otherwise tries a straight cast
+            // which will throw if Value isn't actually a string object.
+            //return Value == null || Value == DBNull.Value ? "" : (string)Value;
+        }
+        public string NullToNumber(object value)
+        {
+            return value == null ? "0" : (string.IsNullOrEmpty(value.ToString().Trim()) ? "0" : value.ToString());
+        }
     }
 }

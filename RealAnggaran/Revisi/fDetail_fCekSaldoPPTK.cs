@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -25,6 +26,10 @@ namespace RealAnggaran.Revisi
 
         public void ShowData(string kdPanggil)
         {
+            decimal totalBelanjaSubsidi = 0;
+            decimal totalBelanjaFungsional = 0;
+            int totalTrans = 0;
+
             _connection.Open();
             _query = "SELECT b.No_SPK, b.Tgl_SP, b.IdSupplier, b.Keter, b.No_Bukti, b.Lunas, b.TGL_SPJ, " +
                 "a.Id_Rinci_Rs, a.TSubsi, a.TFungsi " +
@@ -43,14 +48,20 @@ namespace RealAnggaran.Revisi
                     item.SubItems.Add(_tools.PengecekField(reader, 5));
                     item.SubItems.Add(_tools.PengecekField(reader, 6));
                     item.SubItems.Add(_tools.PengecekField(reader, 7));
-                    item.SubItems.Add(_tools.PengecekField(reader, 8));
-                    item.SubItems.Add(_tools.PengecekField(reader, 9));
+                    item.SubItems.Add(string.Format(new CultureInfo("id-ID"), "Rp. {0:n}", reader[8]));
+                    item.SubItems.Add(string.Format(new CultureInfo("id-ID"), "Rp. {0:n}", reader[9]));
+                    totalBelanjaSubsidi = totalBelanjaSubsidi + Convert.ToDecimal(reader[8]);
+                    totalBelanjaFungsional = totalBelanjaFungsional + Convert.ToDecimal(reader[9]);
                     listView1.Items.Add(item);
+                    totalTrans++;
                 }
                 _tools.AutoresizeLv(listView1, 10);
                 reader.Close();
             }
             _connection.Close();
+            label7.Text = totalTrans.ToString();
+            label3.Text = string.Format(new CultureInfo("id-ID"), "Rp. {0:n}", totalBelanjaSubsidi);
+            label5.Text = string.Format(new CultureInfo("id-ID"), "Rp. {0:n}",totalBelanjaFungsional);
         }
     }
 }

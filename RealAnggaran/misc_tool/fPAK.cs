@@ -20,7 +20,10 @@ namespace RealAnggaran.misc_tool
     public partial class FPak : Form
     {
         readonly CKonek _connect = new CKonek();
+        CAlat _tools = new CAlat();
         readonly SqlConnection _connection;
+        private string _query1;
+        private string _query2;
 
         public FPak()
         {
@@ -143,6 +146,7 @@ namespace RealAnggaran.misc_tool
             Workbook book = Workbook.Load(logFileStream);
             Worksheet sheet = book.Worksheets[0];
 
+            #region example using ExcelLibrary
             // traverse cells => melakukan perjalanan by cells
             //foreach (Pair<Pair<int, int>, Cell> cell in sheet.Cells)
             //{
@@ -161,7 +165,8 @@ namespace RealAnggaran.misc_tool
             //        Cell cell = row.GetCell(colIndex);
             //        MessageBox.Show(cell.ToString());
             //    }
-            //}
+            //} 
+            #endregion
 
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
@@ -172,11 +177,25 @@ namespace RealAnggaran.misc_tool
                 Cell cellPPTK = sheet.Cells[rowIndex, 0];
                 Cell cellKodePanggil = sheet.Cells[rowIndex, 1];
                 Cell cellDigitTerakhir = sheet.Cells[rowIndex, 8];
+                Cell cellSebelum = sheet.Cells[rowIndex, 10];
+                Cell cellSesudah = sheet.Cells[rowIndex, 11];
+                Cell cellUraian = sheet.Cells[rowIndex, 9];
+                Cell cellDigit1 = sheet.Cells[rowIndex, 2];
+                Cell cellDigit2 = sheet.Cells[rowIndex, 3];
+                Cell cellDigit3 = sheet.Cells[rowIndex, 4];
+                Cell cellDigit4 = sheet.Cells[rowIndex, 5];
+                Cell cellDigit5 = sheet.Cells[rowIndex, 6];
+                Cell cellDigit6 = sheet.Cells[rowIndex, 7];
+
+                MessageBox.Show(_tools.NullToString(cellPPTK) + "|" + _tools.NullToString(cellKodePanggil) + "|" + Convert.ToInt16(_tools.NullToNumber(cellDigit1)) + "|" +
+                    Convert.ToInt16(_tools.NullToNumber(cellDigit2)) + "|" + Convert.ToInt16(_tools.NullToNumber(cellDigit3)) + "|" + Convert.ToInt16(_tools.NullToNumber(cellDigit4)) + "|" +
+                    Convert.ToInt16(_tools.NullToNumber(cellDigit5)) + "|" + Convert.ToInt16(_tools.NullToNumber(cellDigit6)) + "|" + Convert.ToInt16(_tools.NullToNumber(cellDigitTerakhir)) + "|" +
+                    _tools.NullToString(cellUraian) + "|" + _tools.NullToNumber(cellSebelum) + "|" + _tools.NullToNumber(cellSesudah));
 
                 int actualRow = rowIndex + 1;
 
-                if (string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
-                     (!string.IsNullOrEmpty(NullToString(cellDigitTerakhir))))
+                if (string.IsNullOrEmpty(_tools.NullToString(cellKodePanggil)) &&
+                     (!string.IsNullOrEmpty(_tools.NullToString(cellDigitTerakhir))))
                 {
                     MessageBox.Show(@"KODE PANGGIL tidak dilengkapi pada baris ke - " + actualRow);
                     e.Cancel = true;
@@ -184,9 +203,9 @@ namespace RealAnggaran.misc_tool
                     return;
                 }
 
-                if (string.IsNullOrEmpty(NullToString(cellPPTK)) &&
-                    (!string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
-                     (!string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))))
+                if (string.IsNullOrEmpty(_tools.NullToString(cellPPTK)) &&
+                    (!string.IsNullOrEmpty(_tools.NullToString(cellKodePanggil)) &&
+                     (!string.IsNullOrEmpty(_tools.NullToString(cellDigitTerakhir)))))
                 {
                     MessageBox.Show(@"PPTK tidak dilengkapi pada baris ke - " + actualRow);
                     e.Cancel = true;
@@ -194,43 +213,53 @@ namespace RealAnggaran.misc_tool
                     return;
                 }
 
-                if (CekIfKeyNotFound(_connection, transaction, NullToString(cellKodePanggil)) &&
-                    !string.IsNullOrEmpty(NullToString(cellPPTK)) &&
-                    !string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
-                    !string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))
+                if (CekIfKeyNotFound(_connection, transaction, _tools.NullToString(cellKodePanggil)) &&
+                    !string.IsNullOrEmpty(_tools.NullToString(cellPPTK)) &&
+                    !string.IsNullOrEmpty(_tools.NullToString(cellKodePanggil)) &&
+                    !string.IsNullOrEmpty(_tools.NullToString(cellDigitTerakhir)))
                 {
-                    //MessageBox.Show(@"update pada baris : " + actualRow);
+                    _query1 = "update";
 
+                    if (_tools.NullToString(cellUraian).Contains("*"))
+                        _query2 = "update kasda..angkas_dtl set p = '', k = '', ";
+                    else
+                        _query2 = "fungional";
+                    try
+                    {
+                        _connect.MasukkanData(_query1, _connection, transaction);
+                        _connect.MasukkanData(_query2, _connection, transaction);
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show(@"Terjadi Kesalahan SQL, kode : " + ex.Message);
+                        transaction.Rollback();
+                        return;
+                    }
+                    transaction.Commit();
                 }
-                else if (!CekIfKeyNotFound(_connection, transaction, NullToString(cellKodePanggil)) &&
-                    !string.IsNullOrEmpty(NullToString(cellPPTK)) &&
-                    !string.IsNullOrEmpty(NullToString(cellKodePanggil)) &&
-                    !string.IsNullOrEmpty(NullToString(cellDigitTerakhir)))
+                else if (!CekIfKeyNotFound(_connection, transaction, _tools.NullToString(cellKodePanggil)) &&
+                    !string.IsNullOrEmpty(_tools.NullToString(cellPPTK)) &&
+                    !string.IsNullOrEmpty(_tools.NullToString(cellKodePanggil)) &&
+                    !string.IsNullOrEmpty(_tools.NullToString(cellDigitTerakhir)))
                 {
-                    //MessageBox.Show(@"insert pada baris : " + actualRow);
-
+                    _query1 = "";
+                    _query2 = "";
+                    try
+                    {
+                        _connect.MasukkanData(_query1, _connection, transaction);
+                        _connect.MasukkanData(_query2, _connection, transaction);
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show(@"Terjadi Kesalahan SQL, kode : " + ex.Message);
+                        transaction.Rollback();
+                        return;
+                    }
+                    transaction.Commit();
                 }
             }
-
             _connection.Close();
         }
-
-        private string NullToString(object value)
-        {
-            // Value.ToString() allows for Value being DBNull, but will also convert int, double, etc.
-            return value == null ? "" : value.ToString();
-
-            // If this is not what you want then this form may suit you better, handles 'Null' and DBNull otherwise tries a straight cast
-            // which will throw if Value isn't actually a string object.
-            //return Value == null || Value == DBNull.Value ? "" : (string)Value;
-        }
-
-        //private void updatedb()
-        //{
-            
-        //}
-
-        //private void 
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
