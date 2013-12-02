@@ -58,6 +58,7 @@ namespace RealAnggaran.misc_tool
         /// <param name="e"></param>
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            decimal nilai = 0;
             #region CONTOH IMPLEMENTASI EPPLUS DAN EXCELLIBRARY
             /* ======================================================================================================
              * | Implementasi baca excel dengan 2 metode                                                            |
@@ -213,15 +214,16 @@ namespace RealAnggaran.misc_tool
                     return;
                 }
 
-                if (CekIfKeyNotFound(_connection, transaction, _tools.NullToString(cellKodePanggil)) &&
+                if (CekIfKeyNotFound(_connection, transaction, _tools.NullToString(cellKodePanggil), ref nilai) &&
                     !string.IsNullOrEmpty(_tools.NullToString(cellPPTK)) &&
                     !string.IsNullOrEmpty(_tools.NullToString(cellKodePanggil)) &&
                     !string.IsNullOrEmpty(_tools.NullToString(cellDigitTerakhir)))
                 {
+                    MessageBox.Show(nilai.ToString());
                     _query1 = "update";
 
                     if (_tools.NullToString(cellUraian).Contains("*"))
-                        _query2 = "update kasda..angkas_dtl set p = '', k = '', ";
+                        _query2 = "update kasda..angkas_dtl set p = '', k = '', tsubsi =";
                     else
                         _query2 = "fungional";
                     try
@@ -233,15 +235,17 @@ namespace RealAnggaran.misc_tool
                     {
                         MessageBox.Show(@"Terjadi Kesalahan SQL, kode : " + ex.Message);
                         transaction.Rollback();
+                        _connection.Close();
                         return;
                     }
                     transaction.Commit();
                 }
-                else if (!CekIfKeyNotFound(_connection, transaction, _tools.NullToString(cellKodePanggil)) &&
+                else if (!CekIfKeyNotFound(_connection, transaction, _tools.NullToString(cellKodePanggil), ref nilai) &&
                     !string.IsNullOrEmpty(_tools.NullToString(cellPPTK)) &&
                     !string.IsNullOrEmpty(_tools.NullToString(cellKodePanggil)) &&
                     !string.IsNullOrEmpty(_tools.NullToString(cellDigitTerakhir)))
                 {
+                    MessageBox.Show(nilai.ToString());
                     _query1 = "";
                     _query2 = "";
                     try
@@ -253,6 +257,7 @@ namespace RealAnggaran.misc_tool
                     {
                         MessageBox.Show(@"Terjadi Kesalahan SQL, kode : " + ex.Message);
                         transaction.Rollback();
+                        _connection.Close();
                         return;
                     }
                     transaction.Commit();
@@ -265,6 +270,7 @@ namespace RealAnggaran.misc_tool
         {
             button2.Enabled = true;
         }
+
         /// <summary>
         /// created         : nov-08-2013
         /// creator         : Putu
@@ -275,18 +281,21 @@ namespace RealAnggaran.misc_tool
         /// <param name="sqlConnection"></param>
         /// <param name="transaction"></param>
         /// <param name="keystring"></param>
+        /// <param name="refNilai"></param>
         /// <returns>jika nilai bool true maka update</returns>
-        private bool CekIfKeyNotFound(SqlConnection sqlConnection, SqlTransaction transaction, string keystring)
+        private bool CekIfKeyNotFound(SqlConnection sqlConnection, SqlTransaction transaction, string keystring, ref decimal refNilai)
         {
             SqlDataReader reader =
                 _connect.MembacaData(
-                    "SELECT     a.Id_Rinci_RS, REALANGGAR.dbo.A_REKENING.Id_Reken, REALANGGAR.dbo.A_REKENING.Kd_Reken " +
-                    "FROM         KASDA..AKD_RINCIAN a INNER JOIN " +
-                    "REALANGGAR.dbo.A_REKENING ON a.Id_Rinci_RS = REALANGGAR.dbo.A_REKENING.Kd_Reken " +
-                    "WHERE     (REPLACE(REPLACE(REPLACE(a.Id_Rinci_RS, ' ', ''), CHAR(10), ''), CHAR(13), '') = '" + keystring + "') ", sqlConnection, transaction);
-
+                    "SELECT     c.TFungsi, c.TSubsi " +
+                    "FROM         kasda..AKD_RINCIAN AS a INNER JOIN " +
+                    "realanggar.dbo.A_REKENING AS b ON a.Id_Rinci_RS = b.Kd_Reken INNER JOIN " +
+                    "kasda..ANGKAS_DTL AS c ON b.Kd_Reken = c.Id_Rinci_Rs " +
+                    "WHERE     (REPLACE(REPLACE(REPLACE(a.Id_Rinci_RS, ' ', ''), CHAR(10), ''), CHAR(13), '') = '"+keystring+"')", sqlConnection, transaction);
             if (reader.HasRows)
             {
+                reader.Read();
+                refNilai = (decimal) reader[0] + (decimal) reader[1];
                 reader.Close();
                 return true;
             }
