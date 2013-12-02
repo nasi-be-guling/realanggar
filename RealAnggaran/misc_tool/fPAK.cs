@@ -9,7 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ExcelLibrary.SpreadSheet;
-using OfficeOpenXml;
+//using OfficeOpenXml;
 using QiHe.CodeLib;
 using ExcelLibrary.CompoundDocumentFormat;
 using ExcelLibrary.BinaryFileFormat;
