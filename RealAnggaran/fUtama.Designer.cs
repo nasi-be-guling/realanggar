@@ -116,6 +116,7 @@
             this.txtkd_Pos = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.importPAKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -491,7 +492,8 @@
             this.mMSupp,
             this.toolStripMenuItem2,
             this.mMRek,
-            this.mMAnggar});
+            this.mMAnggar,
+            this.importPAKToolStripMenuItem});
             this.masterToolStripMenuItem.Name = "masterToolStripMenuItem";
             this.masterToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.masterToolStripMenuItem.Text = "Master";
@@ -828,6 +830,13 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
+            // importPAKToolStripMenuItem
+            // 
+            this.importPAKToolStripMenuItem.Name = "importPAKToolStripMenuItem";
+            this.importPAKToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.importPAKToolStripMenuItem.Text = "Import PAK";
+            this.importPAKToolStripMenuItem.Click += new System.EventHandler(this.importPAKToolStripMenuItem_Click);
+            // 
             // fUtama
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -945,6 +954,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiExportExcel;
         private System.Windows.Forms.ToolStripMenuItem mcekSisaPPTK;
         private System.Windows.Forms.ToolStripMenuItem mPenyesuaianSPK;
+        private System.Windows.Forms.ToolStripMenuItem importPAKToolStripMenuItem;
     }
 }
 

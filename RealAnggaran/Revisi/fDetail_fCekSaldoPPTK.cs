@@ -13,8 +13,8 @@ namespace RealAnggaran.Revisi
 {
     public partial class FDetailFCekSaldoPPTK : Form
     {
-        CKonek _connect = new CKonek();
-        CAlat _tools = new CAlat();
+        readonly CKonek _connect = new CKonek();
+        readonly CAlat _tools = new CAlat();
         private readonly SqlConnection _connection;
         private string _query;
 
@@ -28,7 +28,8 @@ namespace RealAnggaran.Revisi
         {
             decimal totalBelanjaSubsidi = 0;
             decimal totalBelanjaFungsional = 0;
-            int totalTrans = 0;
+            int totalTrans = 1;
+            int totalTransBelumLunas = 1;
 
             _connection.Open();
             _query = "SELECT b.No_SPK, b.Tgl_SP, b.IdSupplier, b.Keter, b.No_Bukti, b.Lunas, b.TGL_SPJ, " +
@@ -54,12 +55,18 @@ namespace RealAnggaran.Revisi
                     totalBelanjaFungsional = totalBelanjaFungsional + Convert.ToDecimal(reader[9]);
                     listView1.Items.Add(item);
                     totalTrans++;
+                    if (string.IsNullOrEmpty(_tools.PengecekField(reader, 5).Trim()))
+                    {
+                        totalTransBelumLunas++;
+                    }
+
                 }
                 _tools.AutoresizeLv(listView1, 10);
                 reader.Close();
             }
             _connection.Close();
             label7.Text = totalTrans.ToString();
+            label9.Text = totalTransBelumLunas.ToString();
             label3.Text = string.Format(new CultureInfo("id-ID"), "Rp. {0:n}", totalBelanjaSubsidi);
             label5.Text = string.Format(new CultureInfo("id-ID"), "Rp. {0:n}",totalBelanjaFungsional);
         }

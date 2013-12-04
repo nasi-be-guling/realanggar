@@ -5,10 +5,10 @@
     <Setting Name="Setting" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;0Jn2HX8dBwXlgnQX8MiFoAEq+eGJLNqZ0holrOOOpESZVoXqm00F1Ke2KQ5TLzIrBCzpOfnhzy/buG1MIPFiUzgioLengg7ZWzz/dtmlyyc=&lt;/ConnectionString&gt;
+  &lt;ConnectionString&gt;0Jn2HX8dBwXlgnQX8MiFoAEq+eGJLNqZ0holrOOOpEQLrmk7yJX+BsP63JODrnj4VNZxZEjaXwmOSAAAPWKQarJx8gP7SbHyNeEk911S+D/eegoukFXInZnCZgPiTGqB&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">0Jn2HX8dBwXlgnQX8MiFoAEq+eGJLNqZ0holrOOOpESZVoXqm00F1Ke2KQ5TLzIrBCzpOfnhzy/buG1MIPFiUzgioLengg7ZWzz/dtmlyyc=</Value>
+      <Value Profile="(Default)">0Jn2HX8dBwXlgnQX8MiFoAEq+eGJLNqZ0holrOOOpEQLrmk7yJX+BsP63JODrnj4VNZxZEjaXwmOSAAAPWKQarJx8gP7SbHyNeEk911S+D/eegoukFXInZnCZgPiTGqB</Value>
     </Setting>
   </Settings>
 </SettingsFile>

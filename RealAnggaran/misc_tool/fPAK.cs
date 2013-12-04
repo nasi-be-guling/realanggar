@@ -1,26 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Data;
-using System.Data.OleDb;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ExcelLibrary.SpreadSheet;
-using OfficeOpenXml;
-using QiHe.CodeLib;
-using ExcelLibrary.CompoundDocumentFormat;
-using ExcelLibrary.BinaryFileFormat;
-using ExcelLibrary.BinaryDrawingFormat;
+using RealAnggaran.Properties;
 
 namespace RealAnggaran.misc_tool
 {
     public partial class FPak : Form
     {
         readonly CKonek _connect = new CKonek();
-        CAlat _tools = new CAlat();
+        readonly CAlat _tools = new CAlat();
         readonly SqlConnection _connection;
         private string _queryRekening;
         private string _queryKasda;
@@ -47,6 +38,13 @@ namespace RealAnggaran.misc_tool
             button2.Enabled = false;
         }
 
+        private void Bantai()
+        {
+            backgroundWorker1.CancelAsync();
+            backgroundWorker1.Dispose();
+            backgroundWorker1 = null;
+            GC.Collect();
+        }
         /// <summary>
         /// Implementasi EEPLUS
         /// -----------------------------------------------------------------------------------
@@ -145,8 +143,18 @@ namespace RealAnggaran.misc_tool
             ////========================================= 
             #endregion
 
-            FileStream logFileStream = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            Workbook book = Workbook.Load(logFileStream);
+            Workbook book;
+            try
+            {
+                FileStream logFileStream = new FileStream(textBox1.Text, FileMode.Open, FileAccess.Read,
+                    FileShare.ReadWrite);
+                book = Workbook.Load(logFileStream);
+            }
+            catch
+            {
+                MessageBox.Show(Resources.FPak_backgroundWorker1_DoWork_);
+                return;
+            }         
             Worksheet sheet = book.Worksheets[0];
 
             #region example using ExcelLibrary
@@ -214,9 +222,12 @@ namespace RealAnggaran.misc_tool
             _connection.Open();
             SqlTransaction transaction = _connection.BeginTransaction();
 
-            for (int rowIndex = sheet.Cells.FirstRowIndex + 1;
+            for (int rowIndex = sheet.Cells.FirstRowIndex + 2;
                    rowIndex <= sheet.Cells.LastRowIndex; rowIndex++)
             {
+                // for checking excel file status : the signature
+                Cell cellFileSignature = sheet.Cells[0, 1];
+
                 Cell cellPPTK = sheet.Cells[rowIndex, 0];
                 Cell cellKodePanggil = sheet.Cells[rowIndex, 1];
                 Cell cellDigitTerakhir = sheet.Cells[rowIndex, 8];
@@ -231,13 +242,24 @@ namespace RealAnggaran.misc_tool
                 Cell cellDigit6 = sheet.Cells[rowIndex, 7];
 
                 int actualRow = rowIndex + 1;
+             
+                if (_tools.NullToString(cellFileSignature) != "fixed" ||
+                    string.IsNullOrEmpty(_tools.NullToString(cellFileSignature)))
+                {
+                    MessageBox.Show(Resources.FPak_backgroundWorker1_DoWork_1);
+                    _connection.Close();
+                    e.Cancel = true;
+                    Bantai();
+                    return;
+                }
 
                 if (string.IsNullOrEmpty(_tools.NullToString(cellKodePanggil)) &&
                      (!string.IsNullOrEmpty(_tools.NullToString(cellDigitTerakhir))))
                 {
                     MessageBox.Show(@"KODE PANGGIL tidak dilengkapi pada baris ke - " + actualRow);
-                    e.Cancel = true;
                     _connection.Close();
+                    e.Cancel = true;
+                    Bantai();
                     return;
                 }
 
@@ -246,8 +268,9 @@ namespace RealAnggaran.misc_tool
                      (!string.IsNullOrEmpty(_tools.NullToString(cellDigitTerakhir)))))
                 {
                     MessageBox.Show(@"PPTK tidak dilengkapi pada baris ke - " + actualRow);
-                    e.Cancel = true;
                     _connection.Close();
+                    e.Cancel = true;
+                    Bantai();
                     return;
                 }
 
@@ -259,26 +282,24 @@ namespace RealAnggaran.misc_tool
                     if (_tools.NullToString(cellUraian).Contains("*"))
                         _queryAngkas = "update kasda..angkas_dtl set tsubsi = " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) +
                             ", tsub_pak = " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) + ", tsub_sblm_pak = " + _tools.NullToNumber(cellSebelum) + ", " +
-                            "tot_angkas = " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) + ", tot_sblm_pak = " + _tools.NullToNumber(cellSebelum) +  
-                            " where id_rinci_rs = '"+ _tools.NullToString(cellKodePanggil) +"'";
+                            "tot_angkas = " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) + ", tot_sblm_pak = " + _tools.NullToNumber(cellSebelum) +
+                            " where id_rinci_rs = '" + _tools.NullToString(cellKodePanggil) + "'";
                     else
                         _queryAngkas = "update kasda..angkas_dtl set tfungsi = " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) +
                             ", tfung_pak = " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) + ", tfung_sblm_pak = " + _tools.NullToNumber(cellSebelum) + ", " +
-                            "tot_angkas = " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) + ", tot_sblm_pak = " + _tools.NullToNumber(cellSebelum) + 
-                            " where id_rinci_rs = '"+ _tools.NullToString(cellKodePanggil) +"'";
-                    //try
-                    //{
-                    //    //_connect.MasukkanData(_queryRekening, _connection, transaction);
-                    //    //_connect.MasukkanData(_queryKasda, _connection, transaction);
-                    //    _connect.MasukkanData(_queryAngkas, _connection, transaction);
-                    //}
-                    //catch (SqlException ex)
-                    //{
-                    //    MessageBox.Show(@"Terjadi Kesalahan SQL, kode : " + ex.Message);
-                    //    transaction.Rollback();
-                    //    _connection.Close();
-                    //    return;
-                    //}
+                            "tot_angkas = " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) + ", tot_sblm_pak = " + _tools.NullToNumber(cellSebelum) +
+                            " where id_rinci_rs = '" + _tools.NullToString(cellKodePanggil) + "'";
+                    try
+                    {
+                        _connect.MasukkanData(_queryAngkas, _connection, transaction);
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show(@"Terjadi Kesalahan SQL, kode : " + ex.Message);
+                        transaction.Rollback();
+                        _connection.Close();
+                        return;
+                    }
                 }
                 else if (!CekIfKeyNotFound(_connection, transaction, _tools.NullToString(cellKodePanggil)) &&
                     !string.IsNullOrEmpty(_tools.NullToString(cellPPTK)) &&
@@ -332,35 +353,36 @@ namespace RealAnggaran.misc_tool
                             Convert.ToInt16(_tools.NullToNumber(cellDigitTerakhir)) +
                             "', '" + DateTime.Now.Year + "')";
                     else
-                        _queryAngkas =
-                            "insert into kasda..angkas_dtl (IdAngkas_Dtl, IdAngkas, Id_Rinci_Rs, P, K, TFungsi, Tot_Angkas, BANTU, kode_Kelompok, kode_Jenis, " +
-                            "kode_Obyek, kode_Rincian, IdKtg_Blj, Thn_Ang) values ('" + incrementAngkas + "', '" + idAngkas +
-                            "', '" + Convert.ToInt16(_tools.NullToNumber(cellDigit1)) + "', '" +
-                            Convert.ToInt16(_tools.NullToNumber(cellDigit2)) + "', '" + _tools.NullToString(cellKodePanggil) + "'" +
-                            ", " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) + ", " +
-                            Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) +
-                            ", '" + _tools.NullToString(cellUraian) + "', '" +
-                            Convert.ToInt16(_tools.NullToNumber(cellDigit3)) +
-                            "', '" + Convert.ToInt16(_tools.NullToNumber(cellDigit4)) + "', '" +
-                            Convert.ToInt16(_tools.NullToNumber(cellDigit5)) +
-                            "', '" + Convert.ToInt16(_tools.NullToNumber(cellDigit6)) + "', '" +
-                            Convert.ToInt16(_tools.NullToNumber(cellDigitTerakhir)) +
-                            "', '" + DateTime.Now.Year + "')";
-                    //try
-                    //{
+                    _queryAngkas =
+                        "insert into kasda..angkas_dtl (IdAngkas_Dtl, IdAngkas, Id_Rinci_Rs, P, K, TFungsi, Tot_Angkas, BANTU, kode_Kelompok, kode_Jenis, " +
+                        "kode_Obyek, kode_Rincian, IdKtg_Blj, Thn_Ang) values ('" + incrementAngkas + "', '" + idAngkas +
+                        "', '" + _tools.NullToString(cellKodePanggil) +
+                        "', '" + Convert.ToInt16(_tools.NullToNumber(cellDigit1)) + "', '" +
+                        Convert.ToInt16(_tools.NullToNumber(cellDigit2)) + "'" +
+                        ", " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) + ", " +
+                        Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) +
+                        ", '" + _tools.NullToString(cellUraian) + "', '" +
+                        Convert.ToInt16(_tools.NullToNumber(cellDigit3)) +
+                        "', '" + Convert.ToInt16(_tools.NullToNumber(cellDigit4)) + "', '" +
+                        Convert.ToInt16(_tools.NullToNumber(cellDigit5)) +
+                        "', '" + Convert.ToInt16(_tools.NullToNumber(cellDigit6)) + "', '" +
+                        Convert.ToInt16(_tools.NullToNumber(cellDigitTerakhir)) +
+                        "', '" + DateTime.Now.Year + "')";
+                    try
+                    {
                         _connect.MasukkanData(_queryRekening, _connection, transaction);
                         _connect.MasukkanData(_queryKasda, _connection, transaction);
                         _connect.MasukkanData(_queryAngkas, _connection, transaction);
-                        _connect.MasukkanData("insert into realanggar..a_det_pptk values ('" + _tools.NullToString(cellPPTK) + "', '" + _tools.NullToString(cellKodePanggil) + "')", _connection, transaction);
-                        //MessageBox.Show(_queryAngkas);
-                    //}
-                    //catch (SqlException ex)
-                    //{
-                    //    MessageBox.Show(@"Terjadi Kesalahan SQL, kode : " + ex.Message);
-                    //    transaction.Rollback();
-                    //    _connection.Close();
-                    //    return;
-                    //}
+                        _connect.MasukkanData("insert into realanggar..a_det_pptk values ('" + _tools.NullToString(cellPPTK) +
+                            "', '" + _tools.NullToString(cellKodePanggil) + "')", _connection, transaction);
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show(@"Terjadi Kesalahan SQL, kode : " + ex.Message);
+                        transaction.Rollback();
+                        _connection.Close();
+                        return;
+                    }
                 }
                 incrementAngkas++;
             }
@@ -398,7 +420,7 @@ namespace RealAnggaran.misc_tool
             else
             {
                 MessageBox.Show(@"Admin belum menambah Master Anggaran.\nSilahkan hubungi 1062", @"PERHATIAN");
-                this.Close();
+                Close();
             }
             _connection.Close();
             return jumlah;
@@ -409,6 +431,7 @@ namespace RealAnggaran.misc_tool
             button2.Enabled = true;
         }
 
+/*
         /// <summary>
         /// created         : nov-08-2013
         /// creator         : Putu
@@ -440,6 +463,7 @@ namespace RealAnggaran.misc_tool
             reader.Close();
             return false;
         }
+*/
         /// <summary>
         /// same as above but this one doesnt include the ref parameter
         /// </summary>

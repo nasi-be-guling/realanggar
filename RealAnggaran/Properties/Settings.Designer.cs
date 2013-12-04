@@ -26,8 +26,8 @@ namespace RealAnggaran.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("0Jn2HX8dBwXlgnQX8MiFoAEq+eGJLNqZ0holrOOOpESZVoXqm00F1Ke2KQ5TLzIrBCzpOfnhzy/buG1MI" +
-            "PFiUzgioLengg7ZWzz/dtmlyyc=")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0Jn2HX8dBwXlgnQX8MiFoAEq+eGJLNqZ0holrOOOpEQLrmk7yJX+BsP63JODrnj4VNZxZEjaXwmOSAAAP" +
+            "WKQarJx8gP7SbHyNeEk911S+D/eegoukFXInZnCZgPiTGqB")]
         public string Setting {
             get {
                 return ((string)(this["Setting"]));

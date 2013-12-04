@@ -47,6 +47,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // listView1
@@ -63,6 +65,7 @@
             this.columnHeader9,
             this.columnHeader10});
             this.listView1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(12, 33);
             this.listView1.Name = "listView1";
@@ -192,11 +195,33 @@
             this.label8.TabIndex = 7;
             this.label8.Text = "TOTAL TRANSAKSI :";
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(893, 465);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(52, 21);
+            this.label9.TabIndex = 10;
+            this.label9.Text = "label9";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(631, 465);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(256, 21);
+            this.label10.TabIndex = 9;
+            this.label10.Text = "TOTAL TRANSAKSI BELUM LUNAS :";
+            // 
             // FDetailFCekSaldoPPTK
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(985, 516);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label5);
@@ -236,5 +261,7 @@
         private System.Windows.Forms.Label label6;
         public System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        public System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
     }
 }

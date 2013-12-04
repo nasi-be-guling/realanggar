@@ -3,51 +3,49 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using RealAnggaran.misc_tool;
 
 namespace RealAnggaran
 {
     public partial class fUtama : Form
     {
         //private int childFormNumber = 0;
-        CKonek konek = new CKonek();
-        CAlat alat = new CAlat();
-        SqlConnection koneksi;
-        SqlDataReader pembaca = null;
-        string query = null;
-        int status = 1;
-        string eksepsi = null;
-        int lebarLayar = Screen.PrimaryScreen.WorkingArea.Size.Width - 10;
-        int tinggiLayar = Screen.PrimaryScreen.WorkingArea.Size.Height - 100;
+        readonly CKonek _konek = new CKonek();
+        readonly CAlat _alat = new CAlat();
+        readonly SqlConnection _koneksi;
+        SqlDataReader _pembaca = null;
+        string _query = null;
+        int _status = 1;
+        string _eksepsi = null;
+        readonly int _lebarLayar = Screen.PrimaryScreen.WorkingArea.Size.Width - 10;
+        readonly int _tinggiLayar = Screen.PrimaryScreen.WorkingArea.Size.Height - 100;
         
         // LIST OF FORM
-        fEnTerima terima;
-        fEnFront bayar;
-        fLogin login;
-        fMAnggaran anggar;
-        fMJenis jenis;
-        fMKpa kpa;
-        fMOpp Opp;
-        Revisi.masterRekening rekening;
-        fMSupp supplier;
-        fRole rolePlaying;
-        fSetConn setConn;
-        fLunas kasir;
-        fLAP_KELUAR lapKeluar;
-        fSetFont settingFont;
+        fEnFront _bayar;
+        fMAnggaran _anggar;
+        fMJenis _jenis;
+        fMKpa _kpa;
+        fMOpp _opp;
+        Revisi.masterRekening _rekening;
+        fMSupp _supplier;
+        fRole _rolePlaying;
+        fLunas _kasir;
+        fSetFont _settingFont;
         //fKasdanya kasdanya;
-        Revisi.fKasir kasdanya;
-        Revisi.fSubsidi subsidiNYA_COK;
-        Revisi.fCekAnggaran cekAnggaran;
-        cetak.FCetakTransaksi exportExcel;
-        misc_tool.fCekSaldoPPTK cekSaldoPptk;
-        cetak.fCetakLapEvi cekLapEvi;
-        decrypt dekripKoneksi;
-        private Revisi.FMundurTanggal mundurTanggal;
+        private Revisi.fKasir _kasdanya;
+        private Revisi.fSubsidi _subsidiNyaCok;
+        private Revisi.fCekAnggaran _cekAnggaran;
+        private cetak.FCetakTransaksi _exportExcel;
+        private misc_tool.fCekSaldoPPTK _cekSaldoPptk;
+        private cetak.fCetakLapEvi _cekLapEvi;
+        private decrypt _dekripKoneksi;
+        private FPak _importFPak;
+        private Revisi.FMundurTanggal _mundurTanggal;
 
         public fUtama()
         {
             InitializeComponent();
-            koneksi = konek.KonekDb();
+            _koneksi = _konek.KonekDb();
         }
 
         private void ShowNewForm(object sender, EventArgs e)
@@ -198,7 +196,7 @@ namespace RealAnggaran
             this.Text = "RealAnggaran ver." + Application.ProductVersion.ToString();
             statusUser.Text = " : HARAP TUNGGU, SEDANG MELAKUKAN KONEKSI DENGAN SERVER !!!";
             timer1.Enabled = true;
-            alat.WriteFileVersion();
+            _alat.WriteFileVersion();
             disabler();
             //fillTxt();
             backgroundWorker1.RunWorkerAsync();
@@ -274,12 +272,12 @@ namespace RealAnggaran
 
         private void check_id(string id)
         {
-            query = "SELECT d.nama_menu, a.Nama_Opp, b.Nama_Role FROM A_OPP a, A_ROLE b, A_D_ROLE c, A_MENU" +
+            _query = "SELECT d.nama_menu, a.Nama_Opp, b.Nama_Role FROM A_OPP a, A_ROLE b, A_D_ROLE c, A_MENU" +
                 " d WHERE ((a.id_opp = '" + id + "' AND b.id_Role = a.id_Role) AND (c.id_role = b.id_role" +
                 " AND d.id_menu = c.id_menu))";
-            koneksi.Open();
+            _koneksi.Open();
             //DataTable dTabel = konek.dTabel(query, koneksi);
-            pembaca = konek.MembacaData(query, koneksi);
+            _pembaca = _konek.MembacaData(_query, _koneksi);
             //DataRow dRow = null;
             //if (dTabel.Rows.Count > 0)
             //{
@@ -287,69 +285,69 @@ namespace RealAnggaran
             //    dPembaca.Read();
             //    for (int i = 0; i <= dTabel.Rows.Count; i++)
             //    {
-            if (pembaca.HasRows)
+            if (_pembaca.HasRows)
             {
-                while (pembaca.Read())
+                while (_pembaca.Read())
                 {
                     foreach (ToolStripItem item in fileMenu.DropDownItems)
                     {
-                        if (item.Name == alat.PengecekField(pembaca, 0))
+                        if (item.Name == _alat.PengecekField(_pembaca, 0))
                         {
                             item.Enabled = true;
                         }
                     }
                     foreach (ToolStripItem item in transToolStripMenuItem.DropDownItems)
                     {
-                        if (item.Name == alat.PengecekField(pembaca, 0))
+                        if (item.Name == _alat.PengecekField(_pembaca, 0))
                         {
                             item.Enabled = true;
                         }
                     }
                     foreach (ToolStripItem item in masterToolStripMenuItem.DropDownItems)
                     {
-                        if (item.Name == alat.PengecekField(pembaca, 0))
+                        if (item.Name == _alat.PengecekField(_pembaca, 0))
                         {
                             item.Enabled = true;
                         }
                     }
                     foreach (ToolStripItem item in transToolStripMenuItem.DropDownItems)
                     {
-                        if (item.Name == alat.PengecekField(pembaca, 0))
+                        if (item.Name == _alat.PengecekField(_pembaca, 0))
                         {
                             item.Enabled = true;
                         }
                     }
                     foreach (ToolStripItem item in optionsToolStripMenuItem.DropDownItems)
                     {
-                        if (item.Name == alat.PengecekField(pembaca, 0))
+                        if (item.Name == _alat.PengecekField(_pembaca, 0))
                         {
                             item.Enabled = true;
                         }
                     }
                     foreach (ToolStripItem item in mLaporan.DropDownItems)
                     {
-                        if (item.Name == alat.PengecekField(pembaca, 0))
+                        if (item.Name == _alat.PengecekField(_pembaca, 0))
                         {
                             item.Enabled = true;
                         }
                     }
                     foreach (ToolStripItem item in keyGenToolStripMenuItem.DropDownItems)
                     {
-                        if (item.Name == alat.PengecekField(pembaca, 0))
+                        if (item.Name == _alat.PengecekField(_pembaca, 0))
                         {
                             item.Enabled = true;
                         }
                     }
-                    statusUser.Text = "User Aktip : " + alat.PengecekField(pembaca, 1) + " .:|:. Posisi : " +
-                        alat.PengecekField(pembaca, 2);
+                    statusUser.Text = "User Aktip : " + _alat.PengecekField(_pembaca, 1) + " .:|:. Posisi : " +
+                        _alat.PengecekField(_pembaca, 2);
                 }
-                pembaca.Close();
+                _pembaca.Close();
             }
                     //dRow = dTabel.Rows.;
             //    }
             //    MessageBox.Show(dPembaca[0].ToString());
             //}
-            koneksi.Close();
+            _koneksi.Close();
             mLogin.Enabled = false;
             mLogout.Enabled = true;
         }
@@ -387,17 +385,17 @@ namespace RealAnggaran
         {
             try
             {
-                koneksi.Open();
+                _koneksi.Open();
             }
             catch (Exception ex)
             {
-                eksepsi = ex.Message;
-                status = 0;
+                _eksepsi = ex.Message;
+                _status = 0;
             }
             finally
             {
                 disabler();
-                koneksi.Close();
+                _koneksi.Close();
             }
         }
 
@@ -407,9 +405,9 @@ namespace RealAnggaran
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (status == 0)
+            if (_status == 0)
             {
-                if (MessageBox.Show("TELAH TERJADI KESALAHAN DENGAN PESAN:\n\n" + eksepsi + "\n\nSILAHKAN HUBUNGI" +
+                if (MessageBox.Show("TELAH TERJADI KESALAHAN DENGAN PESAN:\n\n" + _eksepsi + "\n\nSILAHKAN HUBUNGI" +
                     " TEKNISI ANDA", "PERINGATAN", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                 {
                     statusUser.Text = " : CLIENT GAGAL MELAKUKAN KONEKSI DENGAN SERVER!!!!!!!!!!!!!!!!!!!";
@@ -417,74 +415,74 @@ namespace RealAnggaran
                     //setConn.StartPosition = FormStartPosition.CenterScreen;
                     //setConn.ShowDialog();
                     //setConn.Show();
-                    if ((dekripKoneksi = (decrypt)alat.FormSudahDibuat(typeof(decrypt))) == null)
+                    if ((_dekripKoneksi = (decrypt)_alat.FormSudahDibuat(typeof(decrypt))) == null)
                     {
-                        dekripKoneksi = new decrypt();
+                        _dekripKoneksi = new decrypt();
                         //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                         //fillTheSearchTable(lvTampil);
                         //setConn.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                        dekripKoneksi.StartPosition = FormStartPosition.CenterScreen;
-                        dekripKoneksi.MdiParent = this;
-                        dekripKoneksi.Show();
+                        _dekripKoneksi.StartPosition = FormStartPosition.CenterScreen;
+                        _dekripKoneksi.MdiParent = this;
+                        _dekripKoneksi.Show();
                     }
                     else
                     {
                         //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                         //fillTheSearchTable(lvTampil);
-                        dekripKoneksi.Select();
+                        _dekripKoneksi.Select();
                     }
                 }
                 else
                     this.Close();
 
             }
-            else if (status == 1)
+            else if (_status == 1)
             {
                 statusUser.Text = "User Aktip : .:|:. Posisi : ";
-                toolStripStatusServer.Text = " Server : " + konek.GetServer();
+                toolStripStatusServer.Text = " Server : " + _konek.GetServer();
                 showLogin();
             }
         }
 
         private void mBayar_Click(object sender, EventArgs e)
         {
-            if ((bayar = (fEnFront)alat.FormSudahDibuat(typeof(fEnFront))) == null)
+            if ((_bayar = (fEnFront)_alat.FormSudahDibuat(typeof(fEnFront))) == null)
             {
-                bayar = new fEnFront();
+                _bayar = new fEnFront();
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                bayar.idOpp = Convert.ToInt16(txtkd_Pos.Text);
-                bayar.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                bayar.StartPosition = FormStartPosition.CenterScreen;
-                bayar.MdiParent = this;
-                bayar.Show();
+                _bayar.idOpp = Convert.ToInt16(txtkd_Pos.Text);
+                _bayar.Size = new System.Drawing.Size(_lebarLayar, _tinggiLayar);
+                _bayar.StartPosition = FormStartPosition.CenterScreen;
+                _bayar.MdiParent = this;
+                _bayar.Show();
             }
             else
             {
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                bayar.idOpp = Convert.ToInt16(txtkd_Pos.Text);
-                bayar.Select();
+                _bayar.idOpp = Convert.ToInt16(txtkd_Pos.Text);
+                _bayar.Select();
             }
         }
 
         private void mSetAkses_Click(object sender, EventArgs e)
         {
-            if ((rolePlaying = (fRole)alat.FormSudahDibuat(typeof(fRole))) == null)
+            if ((_rolePlaying = (fRole)_alat.FormSudahDibuat(typeof(fRole))) == null)
             {
-                rolePlaying = new fRole();
+                _rolePlaying = new fRole();
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                rolePlaying.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                rolePlaying.StartPosition = FormStartPosition.CenterScreen;
-                rolePlaying.MdiParent = this;
-                rolePlaying.Show();
+                _rolePlaying.Size = new System.Drawing.Size(_lebarLayar, _tinggiLayar);
+                _rolePlaying.StartPosition = FormStartPosition.CenterScreen;
+                _rolePlaying.MdiParent = this;
+                _rolePlaying.Show();
             }
             else
             {
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                rolePlaying.Select();
+                _rolePlaying.Select();
             }
         }
 
@@ -506,21 +504,21 @@ namespace RealAnggaran
             //    //fillTheSearchTable(lvTampil);
             //    setConn.Select();
             //}
-            if ((dekripKoneksi = (decrypt)alat.FormSudahDibuat(typeof(decrypt))) == null)
+            if ((_dekripKoneksi = (decrypt)_alat.FormSudahDibuat(typeof(decrypt))) == null)
             {
-                dekripKoneksi = new decrypt();
+                _dekripKoneksi = new decrypt();
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
                 //setConn.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                dekripKoneksi.StartPosition = FormStartPosition.CenterScreen;
-                dekripKoneksi.MdiParent = this;
-                dekripKoneksi.Show();
+                _dekripKoneksi.StartPosition = FormStartPosition.CenterScreen;
+                _dekripKoneksi.MdiParent = this;
+                _dekripKoneksi.Show();
             }
             else
             {
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                dekripKoneksi.Select();
+                _dekripKoneksi.Select();
             }
         }
 
@@ -528,146 +526,146 @@ namespace RealAnggaran
         {
             if (MessageBox.Show("MENU INI MASIH DIPERDEBATKAN, LANJUTKAN???", "KONFIRMASI", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
             {
-                if ((anggar = (fMAnggaran)alat.FormSudahDibuat(typeof(fMAnggaran))) == null)
+                if ((_anggar = (fMAnggaran)_alat.FormSudahDibuat(typeof(fMAnggaran))) == null)
                 {
-                    anggar = new fMAnggaran();
+                    _anggar = new fMAnggaran();
                     //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                     //fillTheSearchTable(lvTampil);
-                    anggar.idOpp = Convert.ToInt16(txtkd_Pos.Text);
-                    anggar.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                    anggar.StartPosition = FormStartPosition.CenterScreen;
-                    anggar.MdiParent = this;
-                    anggar.Show();
+                    _anggar.idOpp = Convert.ToInt16(txtkd_Pos.Text);
+                    _anggar.Size = new System.Drawing.Size(_lebarLayar, _tinggiLayar);
+                    _anggar.StartPosition = FormStartPosition.CenterScreen;
+                    _anggar.MdiParent = this;
+                    _anggar.Show();
                 }
                 else
                 {
                     //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                     //fillTheSearchTable(lvTampil);
-                    anggar.idOpp = Convert.ToInt16(txtkd_Pos.Text);
-                    anggar.Select();
+                    _anggar.idOpp = Convert.ToInt16(txtkd_Pos.Text);
+                    _anggar.Select();
                 }
             }
         }
 
         private void mMOpp_Click(object sender, EventArgs e)
         {
-            if ((Opp = (fMOpp)alat.FormSudahDibuat(typeof(fMOpp))) == null)
+            if ((_opp = (fMOpp)_alat.FormSudahDibuat(typeof(fMOpp))) == null)
             {
-                Opp = new fMOpp();
+                _opp = new fMOpp();
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                Opp.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                Opp.StartPosition = FormStartPosition.CenterScreen;
-                Opp.MdiParent = this;
-                Opp.Show();
+                _opp.Size = new System.Drawing.Size(_lebarLayar, _tinggiLayar);
+                _opp.StartPosition = FormStartPosition.CenterScreen;
+                _opp.MdiParent = this;
+                _opp.Show();
             }
             else
             {
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                Opp.Select();
+                _opp.Select();
             }
         }
 
         private void mMKpa_Click(object sender, EventArgs e)
         {
-            if ((kpa = (fMKpa)alat.FormSudahDibuat(typeof(fMKpa))) == null)
+            if ((_kpa = (fMKpa)_alat.FormSudahDibuat(typeof(fMKpa))) == null)
             {
-                kpa = new fMKpa();
+                _kpa = new fMKpa();
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                kpa.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                kpa.StartPosition = FormStartPosition.CenterScreen;
-                kpa.MdiParent = this;
-                kpa.Show();
+                _kpa.Size = new System.Drawing.Size(_lebarLayar, _tinggiLayar);
+                _kpa.StartPosition = FormStartPosition.CenterScreen;
+                _kpa.MdiParent = this;
+                _kpa.Show();
             }
             else
             {
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                kpa.Select();
+                _kpa.Select();
             }
 
         }
 
         private void mMJenis_Click(object sender, EventArgs e)
         {
-            if ((jenis = (fMJenis)alat.FormSudahDibuat(typeof(fMJenis))) == null)
+            if ((_jenis = (fMJenis)_alat.FormSudahDibuat(typeof(fMJenis))) == null)
             {
-                jenis = new fMJenis();
+                _jenis = new fMJenis();
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                jenis.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                jenis.StartPosition = FormStartPosition.CenterScreen;
-                jenis.MdiParent = this;
-                jenis.Show();
+                _jenis.Size = new System.Drawing.Size(_lebarLayar, _tinggiLayar);
+                _jenis.StartPosition = FormStartPosition.CenterScreen;
+                _jenis.MdiParent = this;
+                _jenis.Show();
             }
             else
             {
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                jenis.Select();
+                _jenis.Select();
             }
         }
 
         private void mMSupp_Click(object sender, EventArgs e)
         {
-            if ((supplier = (fMSupp)alat.FormSudahDibuat(typeof(fMSupp))) == null)
+            if ((_supplier = (fMSupp)_alat.FormSudahDibuat(typeof(fMSupp))) == null)
             {
-                supplier = new fMSupp();
+                _supplier = new fMSupp();
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                supplier.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                supplier.StartPosition = FormStartPosition.CenterScreen;
-                supplier.MdiParent = this;
-                supplier.Show();
+                _supplier.Size = new System.Drawing.Size(_lebarLayar, _tinggiLayar);
+                _supplier.StartPosition = FormStartPosition.CenterScreen;
+                _supplier.MdiParent = this;
+                _supplier.Show();
             }
             else
             {
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                supplier.Select();
+                _supplier.Select();
             }
         }
 
         private void mMRek_Click(object sender, EventArgs e)
         {
-            if ((rekening = (Revisi.masterRekening)alat.FormSudahDibuat(typeof(Revisi.masterRekening))) == null)
+            if ((_rekening = (Revisi.masterRekening)_alat.FormSudahDibuat(typeof(Revisi.masterRekening))) == null)
             {
-                rekening = new Revisi.masterRekening();
+                _rekening = new Revisi.masterRekening();
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
                 //rekening.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                rekening.StartPosition = FormStartPosition.CenterScreen;
-                rekening.MdiParent = this;
-                rekening.Show();
+                _rekening.StartPosition = FormStartPosition.CenterScreen;
+                _rekening.MdiParent = this;
+                _rekening.Show();
             }
             else
             {
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                rekening.Select();
+                _rekening.Select();
             }
         }
 
         private void mKasir_Click(object sender, EventArgs e)
         {
-            if ((kasir = (fLunas)alat.FormSudahDibuat(typeof(fLunas))) == null)
+            if ((_kasir = (fLunas)_alat.FormSudahDibuat(typeof(fLunas))) == null)
             {
-                kasir = new fLunas();
+                _kasir = new fLunas();
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                kasir.idOpp = Convert.ToInt16(txtkd_Pos.Text);
-                kasir.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                kasir.StartPosition = FormStartPosition.CenterScreen;
-                kasir.MdiParent = this;
-                kasir.Show();
+                _kasir.idOpp = Convert.ToInt16(txtkd_Pos.Text);
+                _kasir.Size = new System.Drawing.Size(_lebarLayar, _tinggiLayar);
+                _kasir.StartPosition = FormStartPosition.CenterScreen;
+                _kasir.MdiParent = this;
+                _kasir.Show();
             }
             else
             {
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                kasir.Select();
+                _kasir.Select();
             }
         }
 
@@ -689,41 +687,41 @@ namespace RealAnggaran
             //    //fillTheSearchTable(lvTampil);
             //    lapKeluar.Select();
             //}
-            if ((cekLapEvi = (cetak.fCetakLapEvi)alat.FormSudahDibuat(typeof(cetak.fCetakLapEvi))) == null)
+            if ((_cekLapEvi = (cetak.fCetakLapEvi)_alat.FormSudahDibuat(typeof(cetak.fCetakLapEvi))) == null)
             {
-                cekLapEvi = new cetak.fCetakLapEvi();
+                _cekLapEvi = new cetak.fCetakLapEvi();
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
                 //cekLapEvi.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                cekLapEvi.StartPosition = FormStartPosition.CenterScreen;
-                cekLapEvi.MdiParent = this;
-                cekLapEvi.Show();
+                _cekLapEvi.StartPosition = FormStartPosition.CenterScreen;
+                _cekLapEvi.MdiParent = this;
+                _cekLapEvi.Show();
             }
             else
             {
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                cekLapEvi.Select();
+                _cekLapEvi.Select();
             }
         }
 
         private void settingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ((settingFont = (fSetFont)alat.FormSudahDibuat(typeof(fSetFont))) == null)
+            if ((_settingFont = (fSetFont)_alat.FormSudahDibuat(typeof(fSetFont))) == null)
             {
-                settingFont = new fSetFont();
+                _settingFont = new fSetFont();
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
                 //settingFont.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                settingFont.StartPosition = FormStartPosition.CenterScreen;
-                settingFont.MdiParent = this;
-                settingFont.Show();
+                _settingFont.StartPosition = FormStartPosition.CenterScreen;
+                _settingFont.MdiParent = this;
+                _settingFont.Show();
             }
             else
             {
                 //System.Windows.Forms.ListView lvTampil = (System.Windows.Forms.ListView)cari.Controls["groupBox1"].Controls["lvTampil"];
                 //fillTheSearchTable(lvTampil);
-                settingFont.Select();
+                _settingFont.Select();
             }
         }
 
@@ -738,52 +736,52 @@ namespace RealAnggaran
 
         private void mLinkKasdanya_Click(object sender, EventArgs e)
         {
-            if ((kasdanya = (Revisi.fKasir)alat.FormSudahDibuat(typeof(Revisi.fKasir))) == null)
+            if ((_kasdanya = (Revisi.fKasir)_alat.FormSudahDibuat(typeof(Revisi.fKasir))) == null)
             {
-                kasdanya = new Revisi.fKasir();
-                kasdanya.idOpp = Convert.ToInt16(txtkd_Pos.Text);
-                kasdanya.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                kasdanya.StartPosition = FormStartPosition.CenterScreen;
-                kasdanya.MdiParent = this;
-                kasdanya.Show();
+                _kasdanya = new Revisi.fKasir();
+                _kasdanya.idOpp = Convert.ToInt16(txtkd_Pos.Text);
+                _kasdanya.Size = new System.Drawing.Size(_lebarLayar, _tinggiLayar);
+                _kasdanya.StartPosition = FormStartPosition.CenterScreen;
+                _kasdanya.MdiParent = this;
+                _kasdanya.Show();
             }
             else
             {
-                kasdanya.idOpp = Convert.ToInt16(txtkd_Pos.Text);
-                kasdanya.Select();
+                _kasdanya.idOpp = Convert.ToInt16(txtkd_Pos.Text);
+                _kasdanya.Select();
             }
         }
 
         private void mPembayaranKhusus_Click(object sender, EventArgs e)
         {
-            if ((subsidiNYA_COK = (Revisi.fSubsidi)alat.FormSudahDibuat(typeof(Revisi.fSubsidi))) == null)
+            if ((_subsidiNyaCok = (Revisi.fSubsidi)_alat.FormSudahDibuat(typeof(Revisi.fSubsidi))) == null)
             {
-                subsidiNYA_COK = new Revisi.fSubsidi();
-                subsidiNYA_COK.idOpp = Convert.ToInt16(txtkd_Pos.Text);
-                subsidiNYA_COK.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                subsidiNYA_COK.StartPosition = FormStartPosition.CenterScreen;
-                subsidiNYA_COK.MdiParent = this;
-                subsidiNYA_COK.Show();
+                _subsidiNyaCok = new Revisi.fSubsidi();
+                _subsidiNyaCok.idOpp = Convert.ToInt16(txtkd_Pos.Text);
+                _subsidiNyaCok.Size = new System.Drawing.Size(_lebarLayar, _tinggiLayar);
+                _subsidiNyaCok.StartPosition = FormStartPosition.CenterScreen;
+                _subsidiNyaCok.MdiParent = this;
+                _subsidiNyaCok.Show();
             }
             else
             {
-                subsidiNYA_COK.Select();
+                _subsidiNyaCok.Select();
             }
         }
 
         private void cekOverToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ((cekAnggaran = (Revisi.fCekAnggaran)alat.FormSudahDibuat(typeof(Revisi.fCekAnggaran))) == null)
+            if ((_cekAnggaran = (Revisi.fCekAnggaran)_alat.FormSudahDibuat(typeof(Revisi.fCekAnggaran))) == null)
             {
-                cekAnggaran = new Revisi.fCekAnggaran();
-                cekAnggaran.Size = new System.Drawing.Size(lebarLayar, tinggiLayar);
-                cekAnggaran.StartPosition = FormStartPosition.CenterScreen;
-                cekAnggaran.MdiParent = this;
-                cekAnggaran.Show();
+                _cekAnggaran = new Revisi.fCekAnggaran();
+                _cekAnggaran.Size = new System.Drawing.Size(_lebarLayar, _tinggiLayar);
+                _cekAnggaran.StartPosition = FormStartPosition.CenterScreen;
+                _cekAnggaran.MdiParent = this;
+                _cekAnggaran.Show();
             }
             else
             {
-                cekAnggaran.Select();
+                _cekAnggaran.Select();
             }
         }
 
@@ -804,52 +802,65 @@ namespace RealAnggaran
 
         private void tsmiExportExcel_Click(object sender, EventArgs e)
         {
-            if ((exportExcel = (cetak.FCetakTransaksi)alat.FormSudahDibuat(typeof(cetak.FCetakTransaksi))) == null)
+            if ((_exportExcel = (cetak.FCetakTransaksi)_alat.FormSudahDibuat(typeof(cetak.FCetakTransaksi))) == null)
             {
-                exportExcel = new cetak.FCetakTransaksi();
-                exportExcel.StartPosition = FormStartPosition.CenterScreen;
-                exportExcel.MdiParent = this;
-                exportExcel.Show();
+                _exportExcel = new cetak.FCetakTransaksi();
+                _exportExcel.StartPosition = FormStartPosition.CenterScreen;
+                _exportExcel.MdiParent = this;
+                _exportExcel.Show();
             }
             else
             {
-                exportExcel.Select();
+                _exportExcel.Select();
             }
         }
 
         private void mcekSisaPPTK_Click(object sender, EventArgs e)
         {
-            if ((cekSaldoPptk = (misc_tool.fCekSaldoPPTK)alat.FormSudahDibuat(typeof(misc_tool.fCekSaldoPPTK))) == null)
+            if ((_cekSaldoPptk = (misc_tool.fCekSaldoPPTK)_alat.FormSudahDibuat(typeof(misc_tool.fCekSaldoPPTK))) == null)
             {
-                cekSaldoPptk = new misc_tool.fCekSaldoPPTK();
-                cekSaldoPptk.StartPosition = FormStartPosition.CenterScreen;
-                cekSaldoPptk.MdiParent = this;
-                cekSaldoPptk.Show();
+                _cekSaldoPptk = new misc_tool.fCekSaldoPPTK();
+                _cekSaldoPptk.StartPosition = FormStartPosition.CenterScreen;
+                _cekSaldoPptk.MdiParent = this;
+                _cekSaldoPptk.Show();
             }
             else
             {
-                cekSaldoPptk.Select();
+                _cekSaldoPptk.Select();
             }
         }
 
         private void penyesuaianSPKToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ((mundurTanggal = (Revisi.FMundurTanggal)alat.FormSudahDibuat(typeof(Revisi.FMundurTanggal))) == null)
+            if ((_mundurTanggal = (Revisi.FMundurTanggal)_alat.FormSudahDibuat(typeof(Revisi.FMundurTanggal))) == null)
             {
-                mundurTanggal = new Revisi.FMundurTanggal();
-                mundurTanggal.StartPosition = FormStartPosition.CenterScreen;
-                mundurTanggal.MdiParent = this;
-                mundurTanggal.Show();
+                _mundurTanggal = new Revisi.FMundurTanggal();
+                _mundurTanggal.StartPosition = FormStartPosition.CenterScreen;
+                _mundurTanggal.MdiParent = this;
+                _mundurTanggal.Show();
             }
             else
             {
-                mundurTanggal.Select();
+                _mundurTanggal.Select();
             }
         }
 
         private void toolStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
+        }
+
+        private void importPAKToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if ((_importFPak = (FPak)_alat.FormSudahDibuat(typeof(FPak))) == null)
+            {
+                _importFPak = new FPak {StartPosition = FormStartPosition.CenterScreen, MdiParent = this};
+                _importFPak.Show();
+            }
+            else
+            {
+                _mundurTanggal.Select();
+            }
         }
 
     }
