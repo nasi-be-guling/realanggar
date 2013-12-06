@@ -153,6 +153,8 @@ namespace RealAnggaran.misc_tool
             catch
             {
                 MessageBox.Show(Resources.FPak_backgroundWorker1_DoWork_);
+                e.Cancel = true;
+                Bantai();
                 return;
             }         
             Worksheet sheet = book.Worksheets[0];

@@ -52,6 +52,7 @@
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -262,11 +263,25 @@
             this.label5.TabIndex = 22;
             this.label5.Text = "File  :";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(46)))), ((int)(((byte)(59)))));
+            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.label6.Location = new System.Drawing.Point(266, 46);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(319, 22);
+            this.label6.TabIndex = 23;
+            this.label6.Text = "* Double Click pada Item Untuk Detil Transaksi";
+            // 
             // fCekSaldoPPTK
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(651, 506);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.button1);
@@ -324,6 +339,7 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
 
     }
 }
