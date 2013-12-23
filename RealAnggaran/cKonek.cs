@@ -52,7 +52,7 @@ namespace RealAnggaran
 
             // =================================== With encrypted connection string !!!!! =========================================
             string conString = ConfigurationManager.ConnectionStrings["RealAnggaran.Properties.Settings.Setting"].ConnectionString;
-            SqlConnection koneksiAktip = new SqlConnection(cStringCipher.Decrypt(conString, "123"));
+            SqlConnection koneksiAktip = new SqlConnection(CStringCipher.Decrypt(conString, "123"));
 
             return koneksiAktip;
         }
@@ -302,7 +302,7 @@ Silahkan hubungi teknisi anda", @"KESALAHAN");
 
             string conString = ConfigurationManager.ConnectionStrings["RealAnggaran.Properties.Settings.Setting"].ConnectionString;
             //namaServer = 
-            builder.ConnectionString = cStringCipher.Decrypt(conString, "123");
+            builder.ConnectionString = CStringCipher.Decrypt(conString, "123");
             //namaServer = builder.UserInstance;
             return builder.DataSource.Remove(builder.DataSource.ToString(CultureInfo.InvariantCulture).Length - 5);
         }
