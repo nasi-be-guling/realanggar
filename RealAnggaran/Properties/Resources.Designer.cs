@@ -194,6 +194,26 @@ namespace RealAnggaran.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Terjadi kesalahan input!!!
+        ///Harap Cek Kembali File Excel Anda.
+        /// </summary>
+        internal static string FPak_backgroundWorker1_DoWork_ {
+            get {
+                return ResourceManager.GetString("FPak_backgroundWorker1_DoWork_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tidak bisa mengolah file excel.
+        ///Silahkan Cek File Excel Anda.
+        /// </summary>
+        internal static string FPak_backgroundWorker1_DoWork_1 {
+            get {
+                return ResourceManager.GetString("FPak_backgroundWorker1_DoWork_1", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap print_printer {
             get {
                 object obj = ResourceManager.GetObject("print_printer", resourceCulture);

@@ -177,4 +177,12 @@ Pesan kesalahan : </value>
     <value>Silahkan Pilih Jenis Tanggal
 SPK atau SPJ</value>
   </data>
+  <data name="FPak_backgroundWorker1_DoWork_" xml:space="preserve">
+    <value>Terjadi kesalahan input!!!
+Harap Cek Kembali File Excel Anda</value>
+  </data>
+  <data name="FPak_backgroundWorker1_DoWork_1" xml:space="preserve">
+    <value>Tidak bisa mengolah file excel.
+Silahkan Cek File Excel Anda</value>
+  </data>
 </root>
