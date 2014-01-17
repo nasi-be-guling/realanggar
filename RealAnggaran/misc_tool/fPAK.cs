@@ -41,9 +41,9 @@ namespace RealAnggaran.misc_tool
         private void Bantai()
         {
             backgroundWorker1.CancelAsync();
-            backgroundWorker1.Dispose();
-            backgroundWorker1 = null;
-            GC.Collect();
+            //backgroundWorker1.Dispose();
+            //backgroundWorker1 = null;
+            //GC.Collect();
         }
         /// <summary>
         /// Implementasi EEPLUS
@@ -245,15 +245,15 @@ namespace RealAnggaran.misc_tool
 
                 int actualRow = rowIndex + 1;
              
-                if (_tools.NullToString(cellFileSignature) != "fixed" ||
-                    string.IsNullOrEmpty(_tools.NullToString(cellFileSignature)))
-                {
-                    MessageBox.Show(Resources.FPak_backgroundWorker1_DoWork_1);
-                    _connection.Close();
-                    e.Cancel = true;
-                    Bantai();
-                    return;
-                }
+                //if (_tools.NullToString(cellFileSignature) != "fixed" ||
+                //    string.IsNullOrEmpty(_tools.NullToString(cellFileSignature)))
+                //{
+                //    MessageBox.Show(Resources.FPak_backgroundWorker1_DoWork_1);
+                //    _connection.Close();
+                //    e.Cancel = true;
+                //    Bantai();
+                //    return;
+                //}
 
                 if (string.IsNullOrEmpty(_tools.NullToString(cellKodePanggil)) &&
                      (!string.IsNullOrEmpty(_tools.NullToString(cellDigitTerakhir))))
@@ -345,7 +345,7 @@ namespace RealAnggaran.misc_tool
                             ", '" + Convert.ToInt16(_tools.NullToNumber(cellDigit1)) + "', '" +
                             Convert.ToInt16(_tools.NullToNumber(cellDigit2)) + "', '" +
                             _tools.NullToString(cellKodePanggil) + "'" +
-                            "', " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) + ", " +
+                            ", " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) + ", " +
                             _tools.NullToNumber(cellSesudah) + ", " +
                             "'" + _tools.NullToString(cellUraian) + "', '" +
                             Convert.ToInt16(_tools.NullToNumber(cellDigit3)) +
