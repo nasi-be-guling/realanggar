@@ -4,6 +4,11 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Windows.Forms;
 using ExcelLibrary.SpreadSheet;
+//using OfficeOpenXml;
+using QiHe.CodeLib;
+using ExcelLibrary.CompoundDocumentFormat;
+using ExcelLibrary.BinaryFileFormat;
+using ExcelLibrary.BinaryDrawingFormat;
 using RealAnggaran.Properties;
 
 namespace RealAnggaran.misc_tool
