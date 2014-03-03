@@ -244,16 +244,16 @@ namespace RealAnggaran.misc_tool
                 Cell cellDigit6 = sheet.Cells[rowIndex, 7];
 
                 int actualRow = rowIndex + 1;
-             
-                //if (_tools.NullToString(cellFileSignature) != "fixed" ||
-                //    string.IsNullOrEmpty(_tools.NullToString(cellFileSignature)))
-                //{
-                //    MessageBox.Show(Resources.FPak_backgroundWorker1_DoWork_1);
-                //    _connection.Close();
-                //    e.Cancel = true;
-                //    Bantai();
-                //    return;
-                //}
+
+                if (_tools.NullToString(cellFileSignature) != "fixed" ||
+                    string.IsNullOrEmpty(_tools.NullToString(cellFileSignature)))
+                {
+                    MessageBox.Show(Resources.FPak_backgroundWorker1_DoWork_1);
+                    _connection.Close();
+                    e.Cancel = true;
+                    Bantai();
+                    return;
+                }
 
                 if (string.IsNullOrEmpty(_tools.NullToString(cellKodePanggil)) &&
                      (!string.IsNullOrEmpty(_tools.NullToString(cellDigitTerakhir))))
@@ -338,13 +338,14 @@ namespace RealAnggaran.misc_tool
                                   _tools.NullToString(cellDigit5) + "." + _tools.NullToString(cellDigit6) + "." +
                                   _tools.NullToString(cellDigitTerakhir) + "')";
 
-                    if (_tools.NullToString(cellUraian).Contains("*"))
+                    if (_tools.NullToString(cellUraian).Contains("*") || _tools.NullToString(cellUraian).Contains("**"))
                         _queryAngkas =
                             "insert into kasda..angkas_dtl (IdAngkas_Dtl, IdAngkas, Id_Rinci_Rs, P, K, TSubsi, Tot_Angkas, BANTU, kode_Kelompok, kode_Jenis, " +
-                            "kode_Obyek, kode_Rincian, IdKtg_Blj, Thn_Ang) values (" + incrementAngkas + ", " + idAngkas +
-                            ", '" + Convert.ToInt16(_tools.NullToNumber(cellDigit1)) + "', '" +
-                            Convert.ToInt16(_tools.NullToNumber(cellDigit2)) + "', '" +
-                            _tools.NullToString(cellKodePanggil) + "'" +
+                            "kode_Obyek, kode_Rincian, IdKtg_Blj, Thn_Ang) values ('" + incrementAngkas + "', '" +
+                            idAngkas +
+                            "', '" + _tools.NullToString(cellKodePanggil) +
+                            "', '" + Convert.ToInt16(_tools.NullToNumber(cellDigit1)) + "', '" +
+                            Convert.ToInt16(_tools.NullToNumber(cellDigit2)) + "'" +
                             ", " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) + ", " +
                             _tools.NullToNumber(cellSesudah) + ", " +
                             "'" + _tools.NullToString(cellUraian) + "', '" +
@@ -355,21 +356,22 @@ namespace RealAnggaran.misc_tool
                             Convert.ToInt16(_tools.NullToNumber(cellDigitTerakhir)) +
                             "', '" + DateTime.Now.Year + "')";
                     else
-                    _queryAngkas =
-                        "insert into kasda..angkas_dtl (IdAngkas_Dtl, IdAngkas, Id_Rinci_Rs, P, K, TFungsi, Tot_Angkas, BANTU, kode_Kelompok, kode_Jenis, " +
-                        "kode_Obyek, kode_Rincian, IdKtg_Blj, Thn_Ang) values ('" + incrementAngkas + "', '" + idAngkas +
-                        "', '" + _tools.NullToString(cellKodePanggil) +
-                        "', '" + Convert.ToInt16(_tools.NullToNumber(cellDigit1)) + "', '" +
-                        Convert.ToInt16(_tools.NullToNumber(cellDigit2)) + "'" +
-                        ", " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) + ", " +
-                        Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) +
-                        ", '" + _tools.NullToString(cellUraian) + "', '" +
-                        Convert.ToInt16(_tools.NullToNumber(cellDigit3)) +
-                        "', '" + Convert.ToInt16(_tools.NullToNumber(cellDigit4)) + "', '" +
-                        Convert.ToInt16(_tools.NullToNumber(cellDigit5)) +
-                        "', '" + Convert.ToInt16(_tools.NullToNumber(cellDigit6)) + "', '" +
-                        Convert.ToInt16(_tools.NullToNumber(cellDigitTerakhir)) +
-                        "', '" + DateTime.Now.Year + "')";
+                        _queryAngkas =
+                            "insert into kasda..angkas_dtl (IdAngkas_Dtl, IdAngkas, Id_Rinci_Rs, P, K, TFungsi, Tot_Angkas, BANTU, kode_Kelompok, kode_Jenis, " +
+                            "kode_Obyek, kode_Rincian, IdKtg_Blj, Thn_Ang) values ('" + incrementAngkas + "', '" +
+                            idAngkas +
+                            "', '" + _tools.NullToString(cellKodePanggil) +
+                            "', '" + Convert.ToInt16(_tools.NullToNumber(cellDigit1)) + "', '" +
+                            Convert.ToInt16(_tools.NullToNumber(cellDigit2)) + "'" +
+                            ", " + Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) + ", " +
+                            Convert.ToDecimal(_tools.NullToNumber(cellSesudah)) +
+                            ", '" + _tools.NullToString(cellUraian) + "', '" +
+                            Convert.ToInt16(_tools.NullToNumber(cellDigit3)) +
+                            "', '" + Convert.ToInt16(_tools.NullToNumber(cellDigit4)) + "', '" +
+                            Convert.ToInt16(_tools.NullToNumber(cellDigit5)) +
+                            "', '" + Convert.ToInt16(_tools.NullToNumber(cellDigit6)) + "', '" +
+                            Convert.ToInt16(_tools.NullToNumber(cellDigitTerakhir)) +
+                            "', '" + DateTime.Now.Year + "')";
                     try
                     {
                         _connect.MasukkanData(_queryRekening, _connection, transaction);

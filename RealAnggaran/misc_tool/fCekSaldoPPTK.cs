@@ -119,12 +119,12 @@ namespace RealAnggaran.misc_tool
             {
                 if (statusPencarian == 1)
                 {
-                    MessageBox.Show("PPTK dengan kode tersebut tidak ditemukan!", "PERHATIAN");
+                    MessageBox.Show("PPTK dengan kode tersebut tidak ditemukan!\n\nATAU\n\nBelum Ada Belanja", "PERHATIAN");
                     textBox1.SafeControlInvoke(teksBoks => textBox1.Focus());
                 }
                 else if (statusPencarian == 2)
                 {
-                    MessageBox.Show("Kode Rekening/Panggil tidak ditemukan!", "PERHATIAN");
+                    MessageBox.Show("Kode Rekening/Panggil tidak ditemukan!\n\nATAU\n\nBelum Ada Belanja", "PERHATIAN");
                     textBox3.SafeControlInvoke(teksBoks => textBox3.Focus());
                 }
             }
